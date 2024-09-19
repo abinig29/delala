@@ -1,14 +1,12 @@
-// ShadCn
-import { ToastAction } from "@/components/ui/toast";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "./use-toast";
 
-const useSucessToasts = () => {
+const useSuccessToasts = () => {
     type SendErrorType = {
         email: string;
         sendPdfToMail: (email: string) => void;
     };
 
-    const loginSucess = () => {
+    const loginSuccess = () => {
         toast({
             variant: "default",
             title: "Login success",
@@ -50,30 +48,15 @@ const useSucessToasts = () => {
         });
     };
 
-    const loginError = (message: string) => {
-        toast({
-            variant: "destructive",
-            title: "Error",
-            description: `${message}`,
-            action: (
-                <ToastAction
-                    // onClick={() => sendPdfToMail(email)}
-                    altText="Try again"
-                >
-                    Try again
-                </ToastAction>
-            ),
-        });
-    };
+
 
     return {
-        loginSucess,
+        loginSuccess,
         pdfGenerationSuccess,
         saveInvoiceSuccess,
         modifiedInvoiceSuccess,
         sendPdfSuccess,
-        loginError,
     };
 };
 
-export default useSucessToasts;
+export default useSuccessToasts;
