@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import SignUpUpForm from "../_component/signup-form"
 
 export default function Signup() {
     return (
@@ -13,23 +14,7 @@ export default function Signup() {
                 </div>
                 <p className="text-sm text-gray-500">Please sign up for an account</p>
             </div>
-            <form className="space-y-4">
-                <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
-                    <Input id="name" placeholder="Enter your name" required type="text" />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" placeholder="Enter your email or username" required type="text" />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Input id="password" required type="password" />
-                </div>
-                <Button className="w-full bg-emerald-500 hover:bg-emerald-600" type="submit">
-                    Sign in
-                </Button>
-            </form>
+            <SignUpUpForm />
             <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
@@ -54,7 +39,7 @@ export default function Signup() {
             </Button>
 
             <div className="flex items-center justify-between text-sm">
-                <Link className="text-emerald-500 hover:underline" href="/forget-password">
+                <Link className="text-emerald-500 hover:underline" href="/password-reset">
                     Forgot Password?
                 </Link>
                 <div>

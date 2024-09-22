@@ -15,8 +15,13 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { ProductStatus } from '@/types/db'
+import { useFormContext } from 'react-hook-form'
+import { FormDataType } from '../page'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 
-const ProductStatus = () => {
+const ProductStatusComponent = () => {
+    const { control } = useFormContext<FormDataType>();
     return (
         <Card x-chunk="dashboard-07-chunk-3">
             <CardHeader>
@@ -25,17 +30,31 @@ const ProductStatus = () => {
             <CardContent>
                 <div className="grid gap-6">
                     <div className="grid gap-3">
-                        <Label htmlFor="status">Status</Label>
-                        <Select>
-                            <SelectTrigger id="status" aria-label="Select status">
-                                <SelectValue placeholder="Select status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="draft">Draft</SelectItem>
-                                <SelectItem value="published">Active</SelectItem>
-                                <SelectItem value="archived">Archived</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <FormField
+                            control={control}
+                            name="status"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Status</FormLabel>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue defaultValue={ProductStatus.DRAFT} />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem className=' capitalize' value={ProductStatus.ACTIVE}>Active</SelectItem>
+                                            <SelectItem className=' capitalize' value={ProductStatus.ARCHIVE}>Archive</SelectItem>
+                                            <SelectItem className=' capitalize' value={ProductStatus.DRAFT}>Draft</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                 </div>
             </CardContent>
@@ -43,4 +62,6 @@ const ProductStatus = () => {
     )
 }
 
-export default ProductStatus
+export default ProductStatusComponent
+
+

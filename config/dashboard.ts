@@ -26,7 +26,7 @@ export const dashboardConfig: DashboardConfig = {
     },
     {
       title: "Logout",
-      href: "/products",
+      // href: "/login",
       icon: "logOut",
     },
 

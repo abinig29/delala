@@ -7,12 +7,13 @@ import { axiosAuth } from "@/lib/axiosConfig";
 
 const useAxiosAuth = () => {
     const { data: session } = useSession();
+    console.log({ session })
     const refreshToken = useRefreshToken();
     useEffect(() => {
         const requestIntercept = axiosAuth.interceptors.request.use(
             (config) => {
                 if (!config.headers["Authorization"]) {
-                    config.headers["Authorization"] = `Bearer ${session?.user?.accessToken}`;
+                    config.headers["Authorization"] = `Bearer ${session?.user?.authToken?.accessToken}`;
                 }
                 return config;
             },
@@ -26,7 +27,7 @@ const useAxiosAuth = () => {
                 if (error?.response?.status === 403 && !prevRequest?.sent) {
                     prevRequest.sent = true;
                     await refreshToken();
-                    prevRequest.headers["Authorization"] = `Bearer ${session?.user?.accessToken}`;
+                    prevRequest.headers["Authorization"] = `Bearer ${session?.user?.authToken?.accessToken}`;
                     return axiosAuth(prevRequest);
                 }
                 return Promise.reject(error);

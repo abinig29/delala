@@ -8,7 +8,7 @@ import { DataTableFacetedFilter } from "@/components/data-table/data-table-facet
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/utils";
 import type { DataTableFilterField } from "@/types/data-table";
 
 interface DataTableToolbarProps<TData>
@@ -34,6 +34,8 @@ export function DataTableToolbar<TData>({
   }, [filterFields]);
 
 
+  console.log({ filterFields })
+
   return (
     <div
       className={cn(
@@ -42,7 +44,7 @@ export function DataTableToolbar<TData>({
       )}
       {...props}
     >
-      {}
+      { }
       <div className="flex flex-1 items-center space-x-2">
         {searchableColumns.length > 0 &&
           searchableColumns.map((column) => {

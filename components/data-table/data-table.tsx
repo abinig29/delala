@@ -11,15 +11,18 @@ import {
 } from "@/components/ui/table";
 
 import { DataTablePagination } from "./data-table-pagination";
+import { Icons } from "../common/icons";
 
 interface DataTableProps<TData> {
   table: TanstackTable<TData>;
   floatingBar?: React.ReactNode | null;
+  isLoading: boolean
 }
 
 export function DataTable<TData>({
   table,
   floatingBar = null,
+  isLoading = true
 }: DataTableProps<TData>) {
   return (
     <div className="w-full space-y-2.5 overflow-auto">
@@ -34,9 +37,9 @@ export function DataTable<TData>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
@@ -44,38 +47,47 @@ export function DataTable<TData>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
+            {isLoading ?
               <TableRow>
                 <TableCell
-                  colSpan={table.getAllColumns().length}
-                  className="h-24 text-center"
+                  colSpan={7}
+                  className="h-24 relative  w-full"
                 >
-                  No results.
+                  <Icons.spinner className=" animate-spin absolute top-1/2 left-1/2 " />
                 </TableCell>
               </TableRow>
-            )}
+              : table?.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={table.getAllColumns().length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
           </TableBody>
         </Table>
       </div>
       <div className="flex flex-col gap-2.5">
-        <DataTablePagination table={table} />
-        {table.getFilteredSelectedRowModel().rows.length > 0 && floatingBar}
+        {!isLoading && <DataTablePagination table={table} />}
+        {!isLoading && table.getFilteredSelectedRowModel().rows.length > 0 && floatingBar}
       </div>
     </div>
   );

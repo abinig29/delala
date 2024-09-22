@@ -1,65 +1,40 @@
-import { ALL_PERMISSIONS } from "@/config/permission";
-
-
-export enum GENDER {
-    M,
-    F
-}
-export enum EMPLOYMENT_STATUS {
-    FULL_TIME,
-    PART_TIME,
-    CONTRACTOR,
-    TEMPORARY,
-    CASUAL
-}
-
-
-export interface IPermission {
-    id: string
-    branchId: string[]
-    permissions: typeof ALL_PERMISSIONS[number][]
-    grantAll: boolean,
-    userId: string
-}
-
-export interface IProfile {
-    id: string,
-    fullName: string,
-    addresses?: string[],
-    gender?: GENDER,
-    dateOfBirth?: string,
-    salary?: float,
-    emernContact?: string,
-    note?: string,
-    employmentStatus: EMPLOYMENT_STATUS,
-    profileImg?: string,
-    userId?: string
-}
-
-export interface ISecurityProfile {
-    id: string,
-    userId?: string
-    fingerprintHash?: string,
-    softDeleted: boolean,
-    saveActivityLog: boolean,
-    notifyOnSuspiciousActivity: boolean,
-}
-
-
 export interface IUser {
     id?: string | null | undefined;
     email?: string | null | undefined;
     role?: string;
-    phoneNumber?: string;
+    fullName?: string;
     firstTimeLogin?: boolean;
-    permission: IPermission,
-    SecurityProfile: ISecurityProfile,
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+}
+
+export interface IProfile {
+    id: string
+    phone?: string
+    avatar?: string | null,
+    address?: string | null
+    userId: string
+}
+
+export interface IUserWithProfile extends IUser {
     profile: IProfile
 }
 
 
+
+export interface IAuthToken {
+    accessToken: string
+    refreshToken: string
+    sessionId: string
+    expiresIn: number
+}
+
+
+
+
+
 export interface User {
-    user?: IUser;
-    accessToken?: string;
-    refreshToken?: string;
+    userData?: IUser;
+    authToken?: IAuthToken;
 }

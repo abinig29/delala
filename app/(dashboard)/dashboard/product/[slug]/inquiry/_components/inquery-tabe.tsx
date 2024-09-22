@@ -6,80 +6,42 @@ import { Icons } from "@/components/common/icons";
 import { useDataTable } from "@/hooks/use-data-table";
 import type { DataTableFilterField } from "@/types/data-table";
 
-import { Inquiry, InquiryStatus, IProduct, } from "@/types/db";
+import { IInquiry, InquiryStatus, IProduct, } from "@/types/db";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { InquiryTableToolbarActions } from "../../../../inquiry/_components/table/table-toolbar-actions";
 import { getColumns } from "../../../../inquiry/_components/table/table-columns";
+import { useFetchData } from "@/hooks/use-query";
+import useCustomSearchParams from "@/hooks/use-as";
+import { KY } from "@/lib/constant";
+import { useParams } from "next/navigation";
 
 const InquiryStatusFilter: { label: InquiryStatus; value: string }[] = [
     {
-        label: InquiryStatus.Answered,
-        value: InquiryStatus.Answered.split(" ").join("").toLowerCase(),
+        label: InquiryStatus.ANSWERED,
+        value: InquiryStatus.ANSWERED,
     },
     {
-        label: InquiryStatus.Unanswered,
-        value: InquiryStatus.Unanswered.split(" ").join("").toLowerCase(),
+        label: InquiryStatus.PENDING,
+        value: InquiryStatus.PENDING
     },
 
 ];
 
 export function InquiryTable() {
-    const data: Inquiry[] = [
-        {
-            id: "001",
-            customer: "John Doe",
-            productName: "LG C2 42 (106cm)",
-            phoneNumber: "+2519 3452 4532",
-            inquiryDate: "12th August 2024",
-            createdAt: new Date(),
-            status: InquiryStatus.Answered,
-        },
-        {
-            id: "002",
-            customer: "John Doe",
-            productName: "LG C2 42 (106cm)",
-            phoneNumber: "+2519 3452 4532",
-            inquiryDate: "12th August 2024",
-            createdAt: new Date(),
-            status: InquiryStatus.Answered,
-        },
-        {
-            id: "003",
-            customer: "John Doe",
-            productName: "LG C2 42 (106cm)",
-            phoneNumber: "+2519 3452 4532",
-            inquiryDate: "12th August 2024",
-            createdAt: new Date(),
-            status: InquiryStatus.Answered,
-        },
-        {
-            id: "004",
-            customer: "John Doe",
-            productName: "LG C2 42 (106cm)",
-            phoneNumber: "+2519 3452 4532",
-            inquiryDate: "12th August 2024",
-            createdAt: new Date(),
-            status: InquiryStatus.Answered,
-        },
-        {
-            id: "005",
-            customer: "John Doe",
-            productName: "LG C2 42 (106cm)",
-            phoneNumber: "+2519 3452 4532",
-            inquiryDate: "12th August 2024",
-            createdAt: new Date(),
-            status: InquiryStatus.Answered,
-        },
-    ];
+    const param = useParams()
+    const { query } = useCustomSearchParams("name")
+    const { isLoading, data, error, isSuccess } = useFetchData<PaginationRes<IInquiry>>(
+        [KY.inquiry, query],
+        `inquiry/product/${param?.slug}${query}`,
+    );
 
-    const pageCount = 5;
-    const columns = useMemo(() => getColumns(), []);
+    const columns = useMemo(() => getColumns(isLoading), []);
 
-    const filterFields: DataTableFilterField<Inquiry>[] = [
+    const filterFields: DataTableFilterField<IInquiry>[] = [
         {
             label: "Title",
-            value: "productName",
-            placeholder: "Filter Product Name...",
+            value: "name",
+            placeholder: "Filter Customer Name...",
         },
         {
             label: "Status",
@@ -95,9 +57,9 @@ export function InquiryTable() {
     ];
 
     const { table } = useDataTable({
-        data,
+        data: data?.values as IInquiry[],
         columns,
-        pageCount,
+        pageCount: data?.totalPages ?? 0,
         filterFields,
         defaultPerPage: 10,
         defaultSort: "createdAt.desc",
@@ -106,9 +68,9 @@ export function InquiryTable() {
     return (
         <div className="w-full space-y-2.5 overflow-auto bg-white p-6 shadow rounded-xl">
             <DataTableToolbar table={table} filterFields={filterFields}>
-                <InquiryTableToolbarActions table={table} />
+                <InquiryTableToolbarActions table={table} isLoading={isLoading} />
             </DataTableToolbar>
-            <DataTable table={table} />
+            <DataTable table={table} isLoading={isLoading} />
         </div>
     );
 }

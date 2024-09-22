@@ -5,19 +5,20 @@ import { type Table } from "@tanstack/react-table";
 
 import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
-import { Inquiry } from "@/types/db";
+import { IInquiry } from "@/types/db";
 interface InquiryTableToolbarActionsProps {
-  table: Table<Inquiry>;
+  table: Table<IInquiry>;
+  isLoading: boolean
 }
 
 export function InquiryTableToolbarActions({
   table,
+  isLoading
 }: InquiryTableToolbarActionsProps) {
   return (
     <div className="flex items-center gap-2">
       {
-        table.getFilteredSelectedRowModel().rows.length ? < Button
-
+        !isLoading && table?.getFilteredSelectedRowModel()?.rows?.length ? < Button
           variant={"outline"}
           size="sm"
           className="gap-2  "

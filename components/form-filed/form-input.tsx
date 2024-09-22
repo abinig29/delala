@@ -29,7 +29,6 @@ const FormInput = <T extends string>({
   control,
   ...props
 }: FormInputProps<T>) => {
-  console.log({ control });
 
   return (
     <FormField

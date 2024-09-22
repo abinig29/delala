@@ -8,42 +8,41 @@ import type { DataTableFilterField } from "@/types/data-table";
 
 import { getColumns } from "./table-columns";
 import { InquiryTableToolbarActions } from "./table-toolbar-actions";
-import { Inquiry, InquiryStatus, IProduct, } from "@/types/db";
+import { IInquiry, InquiryStatus, } from "@/types/db";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
+import { useFetchData } from "@/hooks/use-query";
+import { KY } from "@/lib/constant";
+import useCustomSearchParams from "@/hooks/use-as";
+
 
 const InquiryStatusFilter: { label: InquiryStatus; value: string }[] = [
   {
-    label: InquiryStatus.Answered,
-    value: InquiryStatus.Answered.split(" ").join("").toLowerCase(),
+    label: InquiryStatus.ANSWERED,
+    value: InquiryStatus.ANSWERED,
   },
   {
-    label: InquiryStatus.Unanswered,
-    value: InquiryStatus.Unanswered.split(" ").join("").toLowerCase(),
+    label: InquiryStatus.PENDING,
+    value: InquiryStatus.PENDING,
   },
 
 ];
 
 export function InquiryTable() {
-  const data: Inquiry[] = [
-    {
-      id: "001",
-      customer: "John Doe",
-      productName: "LG C2 42 (106cm)",
-      phoneNumber: "+2519 3452 4532",
-      inquiryDate: "12th August 2024",
-      createdAt: new Date(),
-      status: InquiryStatus.Answered,
-    }
-  ];
+  const { query } = useCustomSearchParams("name")
+  const { isLoading, data, error, isSuccess } = useFetchData<PaginationRes<IInquiry>>(
+    [KY.inquiry, query],
+    `inquiry${query}`,
+  );
 
-  const pageCount = 5;
-  const columns = useMemo(() => getColumns(), []);
 
-  const filterFields: DataTableFilterField<Inquiry>[] = [
+
+  const columns = useMemo(() => getColumns(isLoading), []);
+
+  const filterFields: DataTableFilterField<IInquiry>[] = [
     {
       label: "Title",
-      value: "productName",
-      placeholder: "Filter Product Name...",
+      value: "name",
+      placeholder: "Filter Customer Name...",
     },
     {
       label: "Status",
@@ -59,9 +58,9 @@ export function InquiryTable() {
   ];
 
   const { table } = useDataTable({
-    data,
+    data: data?.values as IInquiry[],
     columns,
-    pageCount,
+    pageCount: data?.totalPages ?? 0,
     filterFields,
     defaultPerPage: 10,
     defaultSort: "createdAt.desc",
@@ -70,9 +69,9 @@ export function InquiryTable() {
   return (
     <div className="w-full space-y-2.5 overflow-auto bg-white p-6 shadow rounded-xl">
       <DataTableToolbar table={table} filterFields={filterFields}>
-        <InquiryTableToolbarActions table={table} />
+        <InquiryTableToolbarActions table={table} isLoading={isLoading} />
       </DataTableToolbar>
-      <DataTable table={table} />
+      <DataTable table={table} isLoading={isLoading} />
     </div>
   );
 }

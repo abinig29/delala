@@ -10,13 +10,16 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { ReactNode } from "react";
+import { Button } from "../ui/button";
 
 interface DeleteModalProps {
     isOpen: boolean;
-    onClose: () => void
+    isLoading: boolean
+    onClose: () => void,
+    onDelete: () => void
 }
 
-export function DeleteModal({ isOpen, onClose }: DeleteModalProps) {
+export function DeleteModal({ isOpen, onClose, isLoading, onDelete }: DeleteModalProps) {
     return (
         <AlertDialog open={isOpen} onOpenChange={onClose}>
             <AlertDialogContent>
@@ -28,7 +31,12 @@ export function DeleteModal({ isOpen, onClose }: DeleteModalProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className="bg-red-500 hover:bg-red-500/70">Continue</AlertDialogAction>
+                    <Button
+                        onClick={onDelete}
+                        isLoading={isLoading}
+                        className="bg-red-500 hover:bg-red-500/70">
+                        Continue
+                    </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -16,8 +16,45 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useFormContext } from 'react-hook-form'
+import { FormDataType } from '../page'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { ProductCategory } from '@/types/db'
+import PropertyDetailForm from './category/property'
+import VehicleDetailForm from './category/vehicle'
+import JobDetailForm from './category/job'
+import ServiceDetailForm from './category/service'
+import ClassifiedDetailForm from './category/classified'
+import { categoryFieldsMap } from '@/lib/constant'
 
-const ProductCategory = () => {
+type detailType = "propertyDetail" | "vehicleDetail" | "jobDetail" | "serviceDetail" | "classifiedDetail"
+const ProductCategoryComponent = () => {
+    const { control, watch, setValue } = useFormContext<FormDataType>();
+    const category = watch('category');
+
+    useEffect(() => {
+        const fieldsToClear = categoryFieldsMap[category] as detailType[];
+        fieldsToClear?.forEach((field: detailType) => {
+            setValue(field, undefined);
+        });
+    }, [category, setValue]);
+
+    const renderDetailForm = () => {
+        switch (watch("category")) {
+            case "PROPERTY":
+                return <PropertyDetailForm />;
+            case "VEHICLE":
+                return <VehicleDetailForm />;
+            case "JOB":
+                return <JobDetailForm />;
+            case "SERVICE":
+                return <ServiceDetailForm />;
+            case "CLASSIFIED":
+                return <ClassifiedDetailForm />
+            default:
+                return null;
+        }
+    };
     return (
         <div>
             <Card x-chunk="dashboard-07-chunk-2">
@@ -25,46 +62,36 @@ const ProductCategory = () => {
                     <CardTitle>Product Category</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="grid gap-6 sm:grid-cols-3">
+                    <div className="grid gap-6">
                         <div className="grid gap-3">
-                            <Label htmlFor="category">Category</Label>
-                            <Select>
-                                <SelectTrigger
-                                    id="category"
-                                    aria-label="Select category"
-                                >
-                                    <SelectValue placeholder="Select category" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="clothing">Clothing</SelectItem>
-                                    <SelectItem value="electronics">
-                                        Electronics
-                                    </SelectItem>
-                                    <SelectItem value="accessories">
-                                        Accessories
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="grid gap-3">
-                            <Label htmlFor="subcategory">
-                                Subcategory (optional)
-                            </Label>
-                            <Select>
-                                <SelectTrigger
-                                    id="subcategory"
-                                    aria-label="Select subcategory"
-                                >
-                                    <SelectValue placeholder="Select subcategory" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="t-shirts">T-Shirts</SelectItem>
-                                    <SelectItem value="hoodies">Hoodies</SelectItem>
-                                    <SelectItem value="sweatshirts">
-                                        Sweatshirts
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <FormField
+                                control={control}
+                                name="category"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Category</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue defaultValue={ProductCategory.PROPERTY} />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem className=' capitalize' value={ProductCategory.PROPERTY}>{ProductCategory.PROPERTY.toLowerCase()}</SelectItem>
+                                                <SelectItem className=' capitalize' value={ProductCategory.VEHICLE}>{ProductCategory.VEHICLE.toLowerCase()}</SelectItem>
+                                                <SelectItem className=' capitalize' value={ProductCategory.SERVICE}>{ProductCategory.SERVICE.toLowerCase()}</SelectItem>
+                                                <SelectItem className=' capitalize' value={ProductCategory.JOB}>{ProductCategory.JOB.toLowerCase()}</SelectItem>
+                                                <SelectItem className=' capitalize' value={ProductCategory.CLASSIFIED}>{ProductCategory.CLASSIFIED.toLowerCase()}</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {renderDetailForm()}
                         </div>
                     </div>
                 </CardContent>
@@ -73,4 +100,6 @@ const ProductCategory = () => {
     )
 }
 
-export default ProductCategory
+export default ProductCategoryComponent
+
+

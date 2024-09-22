@@ -17,23 +17,30 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Inquiry } from "@/types/db";
-import { StatusBadge } from "@/components/common/status-badge";
+import { AllStatusType, StatusBadge } from "@/components/common/status-badge";
 import InquiryModal from "./inquiry-modal";
 import { DeleteModal } from "@/components/common/delete-modal";
+import { IInquiry } from "@/types/db";
+import { formatDate } from "@/lib/util/utils";
+import useMutationFunc from "@/hooks/use-mutation";
+import { updateAfterDelete } from "@/lib/util/updateLocal";
+import { KY, MTD } from "@/lib/constant";
+import useCustomSearchParams from "@/hooks/use-as";
+import { useQueryClient } from "@tanstack/react-query";
+import useSuccessToasts from "@/hooks/use-customToast";
 
 
-export function getColumns(): ColumnDef<Inquiry>[] {
+export function getColumns(isLoading: boolean): ColumnDef<IInquiry>[] {
   return [
     {
       id: "select",
       header: ({ table }) => (
         <Checkbox
           checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
+            isLoading ? false : (table?.getIsAllPageRowsSelected() ||
+              (table?.getIsSomePageRowsSelected() && "indeterminate"))
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={(value) => table && table?.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
           className="translate-y-0.5"
         />
@@ -50,16 +57,16 @@ export function getColumns(): ColumnDef<Inquiry>[] {
       enableHiding: false,
     },
     {
-      accessorKey: "customer",
+      accessorKey: "name",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Customer" />
       ),
-      cell: ({ row }) => <div className="w-20">{row.getValue("customer")}</div>,
-      enableSorting: false,
-      enableHiding: false,
+      cell: ({ row }) => <div className="w-20">{row.original?.name}</div>,
+      // enableSorting: false,
+      // enableHiding: false,
     },
     {
-      accessorKey: "productName",
+      accessorKey: "product",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Product Name" />
       ),
@@ -67,7 +74,7 @@ export function getColumns(): ColumnDef<Inquiry>[] {
         return (
           <div className="flex space-x-2 ">
             <span className="max-w-[31.25rem] truncate font-medium">
-              {row.getValue("productName")}
+              {row.original?.product?.name}
             </span>
           </div>
         );
@@ -81,7 +88,7 @@ export function getColumns(): ColumnDef<Inquiry>[] {
       cell: ({ row }) => {
         return (
           <div className="flex  items-center">
-            <span className="capitalize">{row?.original?.phoneNumber}</span>
+            <span className="capitalize">{row?.original?.phone}</span>
           </div>
         );
       },
@@ -97,7 +104,7 @@ export function getColumns(): ColumnDef<Inquiry>[] {
       cell: ({ row }) => {
         return (
           <div className="flex items-center">
-            <span className="capitalize">{row?.original?.inquiryDate}</span>
+            <span className="capitalize">{formatDate(row?.original?.createdAt)}</span>
           </div>
         );
       },
@@ -112,23 +119,59 @@ export function getColumns(): ColumnDef<Inquiry>[] {
       ),
       cell: ({ row }) => {
         return (
-          <StatusBadge status={row?.original?.status} />
+          <StatusBadge status={row?.original?.status as AllStatusType} />
         );
       },
-      filterFn: (row, id, value) => {
-        return Array.isArray(value) && value.includes(row.getValue(id));
-      },
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       id: "actions",
       cell: function Cell({ row }) {
         const [isOpen, setIsOpen] = useState(false)
         const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+        const queryClient = useQueryClient()
+        const { query } = useCustomSearchParams("name")
+        const { errorNoAction } = useSuccessToasts()
+        const {
+          isPending,
+          mutateAsync } = useMutationFunc({
+            onSuccess: () => {
+              setIsDeleteModalOpen(false)
+              updateAfterDelete<IInquiry>(
+                KY.inquiry,
+                query,
+                queryClient,
+                row?.original?.id
+              )
+            },
+            onError: (data) => {
+              errorNoAction(data?.message)
+            },
+          });
+
+
+        const onSubmit = async () => {
+
+          try {
+            await mutateAsync({
+              url: `inquiry/${row?.original?.id}`,
+              method: MTD.DELETE,
+            });
+          } catch (e: any) {
+            console.log(e.message);
+          }
+        };
 
         return (
           <>
-            <InquiryModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
-            <DeleteModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} />
+            <InquiryModal data={row.original} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+            <DeleteModal
+              onDelete={onSubmit}
+              isOpen={isDeleteModalOpen}
+              onClose={() => setIsDeleteModalOpen(false)}
+              isLoading={isPending}
+            />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -147,7 +190,7 @@ export function getColumns(): ColumnDef<Inquiry>[] {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                onSelect={() => setIsDeleteModalOpen(true)}
+                  onSelect={() => setIsDeleteModalOpen(true)}
                 >
                   Delete
                   <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>

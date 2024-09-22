@@ -17,7 +17,7 @@ export type sideBarItem = {
   icon?: keyof typeof Icons
 } & (
     | {
-      href: string
+      href?: string
       items?: never
     }
     | {

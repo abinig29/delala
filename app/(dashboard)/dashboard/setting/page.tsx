@@ -9,6 +9,8 @@ const Setting = () => {
   const [tab, setTab] = useState<"PERSONAL" | "SECURITY">(
     "PERSONAL",
   );
+
+
   return (
     <div className=" rounded-sm">
       <div className="flex w-full gap-10 border-b px-8 bg-white">

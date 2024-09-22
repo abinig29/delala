@@ -15,22 +15,31 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IProduct } from "@/types/db";
-import { StatusBadge } from "@/components/common/status-badge";
+import { AdminStatus, IProduct, ProductStatus } from "@/types/db";
+import { AllStatusType, StatusBadge } from "@/components/common/status-badge";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DeleteModal } from "@/components/common/delete-modal";
+import { KY, MTD } from "@/lib/constant";
+import useSuccessToasts from "@/hooks/use-customToast";
+import useMutationFunc from "@/hooks/use-mutation";
+import { updateAfterDelete } from "@/lib/util/updateLocal";
+import { useQueryClient } from "@tanstack/react-query";
+import useCustomSearchParams from "@/hooks/use-as";
+import { getCategoryIcon } from "@/lib/util/catgeory-icon";
+import Image from "next/image";
 
 
-export function getColumns(): ColumnDef<IProduct>[] {
+
+export function getColumns(isLoading: boolean): ColumnDef<IProduct>[] {
   return [
     {
       id: "select",
       header: ({ table }) => (
         <Checkbox
           checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
+            !isLoading && (table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate"))
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
@@ -49,13 +58,40 @@ export function getColumns(): ColumnDef<IProduct>[] {
       enableHiding: false,
     },
     {
-      accessorKey: "productName",
+      accessorKey: "image",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Product Image" />
+      ),
+      cell: ({ row }) => <div className="w-20 h-10">
+        <Image
+          src={row?.original?.images?.[0]}
+          alt=""
+          width={600}
+          height={600}
+          className="w-full h-full object-cover rounded" />
+      </div>,
+      enableSorting: false,
+      enableHiding: false,
+    },
+
+    {
+      accessorKey: "name",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Product Name" />
       ),
-      cell: ({ row }) => <Link href={`/dashboard/product/${row.original.id}/inquiry`} className="w-20 hover:underline">{row.getValue("productName")}</Link>,
-      enableSorting: false,
-      enableHiding: false,
+      cell: ({ row }) => <Link href={`/dashboard/product/${row.original.id}/inquiry`} className=" hover:underline">{row.original.name}</Link>,
+    },
+    {
+      accessorKey: "totalViews",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Total Views" />
+      ),
+      cell: ({ row }) => <div className="flex space-x-2">
+        <span className="max-w-[31.25rem] truncate font-medium flex items-center">
+          {row.original.totalViews} {" "}
+        </span>
+      </div>,
+
     },
     {
       accessorKey: "category",
@@ -65,43 +101,12 @@ export function getColumns(): ColumnDef<IProduct>[] {
       cell: ({ row }) => {
         return (
           <div className="flex space-x-2">
-            <span className="max-w-[31.25rem] truncate font-medium">
-              {row.getValue("category")}
+            <span className="max-w-[31.25rem] gap-2 truncate font-medium flex items-center">
+              {getCategoryIcon(row.original.category)}
+              {row.original.category.toLowerCase()}
             </span>
           </div>
         );
-      },
-    },
-    {
-      accessorKey: "subcategory",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Sub Category" />
-      ),
-      cell: ({ row }) => {
-        return (
-          <div className="flex w-[6.25rem] items-center">
-            <span className="capitalize">{row?.original?.subcategory}</span>
-          </div>
-        );
-      },
-      filterFn: (row, id, value) => {
-        return Array.isArray(value) && value.includes(row.getValue(id));
-      },
-    },
-    {
-      accessorKey: "price",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Price" />
-      ),
-      cell: ({ row }) => {
-        return (
-          <div className="flex items-center">
-            <span className="capitalize">{row?.original?.price}</span>
-          </div>
-        );
-      },
-      filterFn: (row, id, value) => {
-        return Array.isArray(value) && value.includes(row.getValue(id));
       },
     },
     {
@@ -111,7 +116,21 @@ export function getColumns(): ColumnDef<IProduct>[] {
       ),
       cell: ({ row }) => {
         return (
-          <StatusBadge status={row?.original?.status} />
+          <StatusBadge status={row?.original?.status as AllStatusType} />
+        );
+      },
+      filterFn: (row, id, value) => {
+        return Array.isArray(value) && value.includes(row.getValue(id));
+      },
+    },
+    {
+      accessorKey: "adminStatus",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Admin Approval" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <StatusBadge status={row?.original?.adminStatus as AllStatusType} />
         );
       },
       filterFn: (row, id, value) => {
@@ -123,9 +142,47 @@ export function getColumns(): ColumnDef<IProduct>[] {
       cell: function Cell({ row }) {
         const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false)
         const router = useRouter()
+        const queryClient = useQueryClient()
+        const { query } = useCustomSearchParams("name")
+        const { errorNoAction } = useSuccessToasts()
+        const {
+          isPending,
+          mutateAsync } = useMutationFunc({
+            onSuccess: () => {
+              setIsDeleteModalOpen(false)
+              updateAfterDelete<IProduct>(
+                KY.product,
+                query,
+                queryClient,
+                row?.original?.id
+              )
+            },
+            onError: (data) => {
+              errorNoAction(data?.message)
+            },
+          });
+
+
+        const onSubmit = async () => {
+
+          try {
+            await mutateAsync({
+              url: `product/${row?.original?.id}`,
+              method: MTD.DELETE,
+            });
+          } catch (e: any) {
+            console.log(e.message);
+          }
+        };
+
         return (
           <>
-            <DeleteModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} />
+            <DeleteModal
+              onDelete={onSubmit}
+              isOpen={isDeleteModalOpen}
+              onClose={() => setIsDeleteModalOpen(false)}
+              isLoading={isPending}
+            />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -138,12 +195,12 @@ export function getColumns(): ColumnDef<IProduct>[] {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-40">
                 <DropdownMenuItem
-                  onSelect={() => router.push(`/dashboard/product/${row?.id}/inquiry`)}
+                  onSelect={() => router.push(`/dashboard/product/${row?.original?.id}/inquiry`)}
                 >
                   View
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onSelect={() => router.push(`/dashboard/product/${row?.id}/`)}
+                  onSelect={() => router.push(`/dashboard/product/${row?.original?.id}/`)}
                 >
                   Edit
                 </DropdownMenuItem>

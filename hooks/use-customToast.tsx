@@ -1,11 +1,23 @@
+import { ToastAction } from "@/components/ui/toast";
 import { toast } from "./use-toast";
 
 const useSuccessToasts = () => {
-    type SendErrorType = {
-        email: string;
-        sendPdfToMail: (email: string) => void;
-    };
 
+    const errorWithAction = (message: string, onErrorAction: () => void) => {
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: `${message}`,
+            action: (
+                <ToastAction
+                    onClick={() => onErrorAction()}
+                    altText="Try again"
+                >
+                    Try again
+                </ToastAction>
+            ),
+        });
+    };
     const loginSuccess = () => {
         toast({
             variant: "default",
@@ -14,48 +26,62 @@ const useSuccessToasts = () => {
         });
     };
 
-
-    const pdfGenerationSuccess = () => {
+    const productCreated = () => {
         toast({
             variant: "default",
-            title: "Your invoice has been generated!",
-            description:
-                "You can preview, download, or save it from the actions tab",
+            title: "Product created",
+            description: "You have successfully created your product",
+        });
+    }
+    const productUpdated = () => {
+        toast({
+            variant: "default",
+            title: "Product updated",
+            description: "You have successfully updated your product",
+        });
+    }
+    const changePasswordSuccess = () => {
+        toast({
+            variant: "default",
+            title: "Password change success",
+            description: "You have successfully changed your password",
         });
     };
 
-    const saveInvoiceSuccess = () => {
+    const signUpSuccess = () => {
         toast({
             variant: "default",
-            title: "Saved Invoice",
-            description: "Your invoice details are saved now",
+            title: "Sign Up successfully",
+            description: "Please Check your email to verify your account",
         });
     };
-
-    const modifiedInvoiceSuccess = () => {
+    const verificationSuccess = () => {
         toast({
             variant: "default",
-            title: "Modified Invoice",
-            description: "Successfully modified your invoice",
-        });
-    };
-
-    const sendPdfSuccess = () => {
-        toast({
-            variant: "default",
-            title: "Email sent",
-            description: "Your invoice has been sent to the specified email",
+            title: "Verified successfully",
+            description: "Your email has been verified successfully",
         });
     };
 
 
 
+    const errorNoAction = (message: string) => {
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: `${message}`,
+
+        });
+    }
     return {
         loginSuccess,
-        pdfGenerationSuccess,
-        saveInvoiceSuccess,
-        modifiedInvoiceSuccess,
-        sendPdfSuccess,
+        signUpSuccess,
+        errorWithAction,
+        errorNoAction,
+        changePasswordSuccess,
+        verificationSuccess,
+        productCreated,
+        productUpdated
     };
 };
 

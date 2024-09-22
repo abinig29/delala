@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import React from 'react'
 
-const Header = () => {
+const Header = ({ isPending, isCreate }: { isPending: boolean, isCreate: boolean }) => {
     return (
         <div className='flex justify-between items-center w-full '>
             <Link
@@ -14,8 +14,11 @@ const Header = () => {
                     Back
                 </Button>
             </Link>
-            <Button className=' bg-main hover:bg-main/80'>
-                Save Product
+            <Button
+                isLoading={isPending}
+                type='submit'
+                className=' bg-main hover:bg-main/80'>
+                {isCreate ? "Save" : "Edit"} Product
             </Button>
         </div>
     )

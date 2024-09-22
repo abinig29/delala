@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Icons } from "@/components/common/icons";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/utils";
 import { type sideBarItem } from "@/types";
 import SideBarHeader from "./side-header";
+import { signOut } from "next-auth/react";
 
 interface DashboardNavProps {
   items: sideBarItem[];
@@ -36,6 +37,11 @@ export function DashboardNav({ items }: DashboardNavProps) {
               <Link
                 key={index}
                 href={item.disabled ? "/" : item.href ?? "/dashboard"}
+                onClick={() => {
+                  item?.title === "Logout" && signOut({
+                    callbackUrl: `${window.location.origin}/login`,
+                  });
+                }}
               >
                 <span
                   className={cn(

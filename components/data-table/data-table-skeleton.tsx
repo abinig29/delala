@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/utils";
 
 interface DataTableSkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   columnCount: number;

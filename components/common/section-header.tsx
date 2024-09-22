@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/util/utils";
 
 const sectionHeaderVariant = cva("font-heading font-semibold tracking-wide", {
   variants: {

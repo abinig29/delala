@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card"
 import { Button } from '@/components/ui/button'
 
-const ArchiveProduct = () => {
+const ArchiveProduct = ({ isCreate = true }: { isCreate?: boolean }) => {
     return (
         <Card x-chunk="dashboard-07-chunk-5">
             <CardHeader>
@@ -19,7 +19,12 @@ const ArchiveProduct = () => {
             </CardHeader>
             <CardContent>
                 <div></div>
-                <Button size="sm" variant="destructive">
+                <Button
+                    disabled={isCreate}
+                    size="sm"
+                    variant="destructive"
+                    className='bg-red-500'
+                >
                     Archive Product
                 </Button>
             </CardContent>

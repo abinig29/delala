@@ -16,7 +16,11 @@ export enum MTD {
   DELETE = "DELETE",
 }
 export enum KY {
-  clinic,
+  inquiry,
+  product,
+  profile,
+  service,
+  classified
 }
 
 export const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
@@ -29,4 +33,16 @@ export const SHORT_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   year: "numeric",
   month: "short",
   day: "numeric",
+};
+
+
+export const paginationKeys = (searchTextName: string) => ['per_page', 'sort', 'page', searchTextName];
+
+
+export const categoryFieldsMap = {
+  SERVICE: ['vehicleDetail', 'jobDetail', 'classifiedDetail', "propertyDetail"],
+  VEHICLE: ['serviceDetail', 'jobDetail', 'classifiedDetail', "propertyDetail"],
+  JOB: ['vehicleDetail', 'serviceDetail', 'classifiedDetail', "propertyDetail"],
+  CLASSIFIED: ['vehicleDetail', 'serviceDetail', 'jobDetail', "propertyDetail"],
+  PROPERTY: ['vehicleDetail', 'serviceDetail', 'jobDetail', "classifiedDetail"],
 };

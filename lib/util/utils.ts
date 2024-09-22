@@ -1,3 +1,4 @@
+import { ProductCategory } from "@/types/db";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -42,3 +43,20 @@ export const halfHours = Array.from(
   { length: 17 },
   (_, i) => `${i + 8 < 10 ? "0" : ""}${i + 8}:30`,
 );
+
+
+export function removeKeys(obj: Record<string, any>, keysToRemove: string[]): Record<string, any> {
+  const newObj: Record<string, any> = { ...obj }; // Create a shallow copy of the original object
+
+  keysToRemove.forEach((key) => {
+    if (newObj.hasOwnProperty(key)) {
+      delete newObj[key]; // Remove the key if it exists in the object
+    }
+  });
+
+  return newObj;
+}
+
+export const normalizeUrl = (url: string): string => {
+  return url.replace(/\\/g, '/');
+};

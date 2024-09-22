@@ -9,15 +9,17 @@ import { IProduct } from "@/types/db";
 import Link from "next/link";
 interface ProductTableToolbarActionsProps {
   table: Table<IProduct>;
+  isLoading: boolean
 }
 
 export function ProductTableToolbarActions({
   table,
+  isLoading
 }: ProductTableToolbarActionsProps) {
   return (
     <div className="flex items-center gap-2">
       {
-        table.getFilteredSelectedRowModel().rows.length ? < Button
+        !isLoading && table.getFilteredSelectedRowModel().rows.length ? < Button
 
           variant={"outline"}
           size="sm"
@@ -41,22 +43,7 @@ export function ProductTableToolbarActions({
           Create Product
         </Button>
       </Link>
-      {
 
-      }
-      {/* <Button
-        variant="outline"
-        size="sm"
-        onClick={() =>
-          exportTableToCSV(table, {
-            filename: "tasks",
-            excludeColumns: ["select", "actions"],
-          })
-        }
-      >
-        <DownloadIcon className="mr-2 size-4" aria-hidden="true" />
-        Export
-      </Button> */}
     </div >
   );
 }

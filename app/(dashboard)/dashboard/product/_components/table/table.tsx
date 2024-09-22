@@ -10,101 +10,39 @@ import type { DataTableFilterField } from "@/types/data-table";
 import { getColumns } from "./table-columns";
 import { ProductTableToolbarActions } from "./table-toolbar-actions";
 import { IProduct, ProductStatus } from "@/types/db";
+import useCustomSearchParams from "@/hooks/use-as";
+import { useFetchData } from "@/hooks/use-query";
+import { KY } from "@/lib/constant";
 
 const ProductStatusFilter: { label: ProductStatus; value: string }[] = [
   {
-    label: ProductStatus.Available,
-    value: ProductStatus.Available.split(" ").join("").toLowerCase(),
+    label: ProductStatus.ACTIVE,
+    value: ProductStatus.ACTIVE
   },
   {
-    label: ProductStatus.Sold,
-    value: ProductStatus.Sold.split(" ").join("").toLowerCase(),
+    label: ProductStatus.ARCHIVE,
+    value: ProductStatus.ARCHIVE
+  },
+  {
+    label: ProductStatus.DRAFT,
+    value: ProductStatus.DRAFT
   },
 
 ];
 
 export function ProductTable() {
-  const data: IProduct[] = [
-    {
-      id: "001",
-      productName: "LG C2 42",
-      category: "Electronics",
-      subcategory: "Samsung Tv",
-      price: "300$",
-      status: ProductStatus.Sold,
-      createdAt: new Date(),
-    },
-    {
-      id: "001",
-      productName: "LG C2 42",
-      category: "Electronics",
-      subcategory: "Samsung Tv",
-      price: "300$",
-      status: ProductStatus.Sold,
-      createdAt: new Date(),
-    },
-    {
-      id: "001",
-      productName: "LG C2 42",
-      category: "Electronics",
-      subcategory: "Samsung Tv",
-      price: "300$",
-      status: ProductStatus.Sold,
-      createdAt: new Date(),
-    },
-    {
-      id: "001",
-      productName: "LG C2 42",
-      category: "Electronics",
-      subcategory: "Samsung Tv",
-      price: "300$",
-      status: ProductStatus.Sold,
-      createdAt: new Date(),
-    },
-    {
-      id: "001",
-      productName: "LG C2 42",
-      category: "Electronics",
-      subcategory: "Samsung Tv",
-      price: "300$",
-      status: ProductStatus.Sold,
-      createdAt: new Date(),
-    },
-    {
-      id: "001",
-      productName: "LG C2 42",
-      category: "Electronics",
-      subcategory: "Samsung Tv",
-      price: "300$",
-      status: ProductStatus.Sold,
-      createdAt: new Date(),
-    }, {
-      id: "001",
-      productName: "LG C2 42",
-      category: "Electronics",
-      subcategory: "Samsung Tv",
-      price: "300$",
-      status: ProductStatus.Sold,
-      createdAt: new Date(),
-    },
-    {
-      id: "001",
-      productName: "LG C2 42",
-      category: "Electronics",
-      subcategory: "Samsung Tv",
-      price: "300$",
-      status: ProductStatus.Sold,
-      createdAt: new Date(),
-    },
-  ];
 
-  const pageCount = 5;
-  const columns = useMemo(() => getColumns(), []);
+  const { query } = useCustomSearchParams("name")
+  const { isLoading, data, error, isSuccess } = useFetchData<PaginationRes<IProduct>>(
+    [KY.product, query],
+    `product/user/my${query}`,
+  );
+  const columns = useMemo(() => getColumns(isLoading), []);
 
   const filterFields: DataTableFilterField<IProduct>[] = [
     {
       label: "Title",
-      value: "productName",
+      value: "name",
       placeholder: "Filter Product Name...",
     },
     {
@@ -121,9 +59,9 @@ export function ProductTable() {
   ];
 
   const { table } = useDataTable({
-    data,
+    data: data?.values as IProduct[],
     columns,
-    pageCount,
+    pageCount: data?.totalPages ?? 0,
     filterFields,
     defaultPerPage: 10,
     defaultSort: "createdAt.desc",
@@ -132,9 +70,9 @@ export function ProductTable() {
   return (
     <div className="w-full space-y-2.5 overflow-auto mt-4 bg-white p-6 shadow rounded-xl">
       <DataTableToolbar table={table} filterFields={filterFields}>
-        <ProductTableToolbarActions table={table} />
+        <ProductTableToolbarActions table={table} isLoading={!data?.values?.length} />
       </DataTableToolbar>
-      <DataTable table={table} />
+      <DataTable table={table} isLoading={isLoading} />
     </div>
   );
 }

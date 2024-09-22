@@ -35,15 +35,15 @@ const FormTextarea = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          {label && <FormLabel>{`${label}:`}</FormLabel>}
+          {label && <FormLabel className="text-muted-foreground">{`${label}`}</FormLabel>}
           {labelHelper && <span className="text-xs"> {labelHelper}</span>}
-          <div className="flex items-center justify-between gap-5 text-sm">
-            <div>
+          <div className="flex items-center justify-between gap-5 text-sm w-full ">
+            <div className="w-full ">
               <FormControl>
                 <Textarea
                   {...field}
                   placeholder={placeholder}
-                  className="h-0 w-60"
+                  className="w-full"
                   {...props}
                 />
               </FormControl>

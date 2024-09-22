@@ -5,7 +5,7 @@ import Logo from "@/components/common/logo";
 
 const SideBarHeader = () => {
   return (
-    <div className="mt-4">
+    <div className="">
       <div className="flex w-full justify-between p-4  ">
         {/* <Icons.logo /> */}
         <Logo />
