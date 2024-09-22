@@ -42,7 +42,7 @@ const ProductImage = () => {
                     <div className="grid grid-cols-3 gap-2 h-24">
                         {
                             Array(3).fill(0).map((_, index) => {
-                                return <div className='h-24'>
+                                return <div key={index} className='h-24' >
                                     <PhotoUploader
                                         image={images?.[index + 1]}
                                         setImage={(newImage) => {
@@ -58,7 +58,7 @@ const ProductImage = () => {
                     </div>
                 </div>
             </CardContent>
-        </Card>
+        </Card >
     )
 }
 
