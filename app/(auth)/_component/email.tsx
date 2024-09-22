@@ -9,13 +9,12 @@ import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/hooks/use-toast";
 import useMutationFunc from "@/hooks/use-mutation";
 import { MTD } from "@/lib/constant";
-import { ResetScreenType } from "../password-reset/page";
 import { resetPasswordEmailSchema } from "@/lib/validation/auth";
 
 export const EmailInput = ({
   setScreen,
 }: {
-  setScreen: React.Dispatch<React.SetStateAction<ResetScreenType>>;
+  setScreen: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   type emailType = z.infer<typeof resetPasswordEmailSchema>;
   const {
@@ -34,7 +33,7 @@ export const EmailInput = ({
         title: "Check Your Email",
         description: " you will receive a password reset OTP.",
       });
-      setScreen(ResetScreenType.OTP);
+      setScreen(2);
       router.push(`/password-reset?email=${watch("email")}`);
     },
     onError: (data) => {

@@ -4,15 +4,13 @@ import { CodeResponse, CredentialResponse, useGoogleLogin } from '@react-oauth/g
 import { Button } from '@/components/ui/button';
 import useMutationFunc from '@/hooks/use-mutation';
 import { signIn } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
 import useSuccessToasts from '@/hooks/use-customToast';
 import { MTD } from '@/lib/constant';
 import { logTrace } from '@/lib/logger';
 
-export const CustomGoogleButton = () => {
+export const CustomGoogleButton = ({ searchParams }: { searchParams: { from: string } }) => {
     const { loginSuccess, errorNoAction } = useSuccessToasts();
-    const searchParams = useSearchParams();
-    const callbackUrl = searchParams?.get("from") || "/dashboard";
+    const callbackUrl = searchParams?.from || "/dashboard";
     const { mutateAsync, isPending } = useMutationFunc({
         onSuccess: (data: any) => {
             signIn("credentials", {

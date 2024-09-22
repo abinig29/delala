@@ -1,15 +1,9 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+"use client"
 import Link from "next/link"
 import LoginForm from "../_component/user-auth"
 import { CustomGoogleButton } from "../_component/google-button"
 
-export default function Login() {
-
-
-
-
+export default function Login({ searchParams }: { searchParams: { from: string } }) {
     return (
         <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-lg shadow-lg">
             <div className="space-y-2 text-center">
@@ -19,7 +13,7 @@ export default function Login() {
                 </div>
                 <p className="text-sm text-gray-500">Please sign in to your account</p>
             </div>
-            <LoginForm />
+            <LoginForm searchParams={searchParams} />
             <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
@@ -28,7 +22,7 @@ export default function Login() {
                     <span className="bg-white px-2 text-gray-500">Or continue with</span>
                 </div>
             </div>
-            <CustomGoogleButton />
+            <CustomGoogleButton searchParams={searchParams} />
             <div className="flex items-center justify-between text-sm">
                 <Link className="text-emerald-500 hover:underline" href="/password-reset">
                     Forgot Password?

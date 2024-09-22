@@ -10,14 +10,13 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { otpSchema } from "@/lib/validation/auth";
-import { ResetScreenType } from "../password-reset/page";
 import { useState } from "react";
 import OTPInput from "react-otp-input";
 
 export const OtpComponent = ({
   setScreen,
 }: {
-  setScreen: React.Dispatch<React.SetStateAction<ResetScreenType>>;
+  setScreen: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -27,7 +26,7 @@ export const OtpComponent = ({
 
   const onSubmit = async () => {
     router.push(`/password-reset?email=${email}&pin=${otp}`);
-    setScreen(ResetScreenType?.NEW_PASSWORD);
+    setScreen(3);
   };
 
 

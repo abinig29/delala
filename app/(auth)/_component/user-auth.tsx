@@ -17,11 +17,9 @@ import { z } from 'zod';
 
 type FormDataType = z.infer<typeof loginSchema>;
 type FormFiledType = FieldPath<FormDataType>;
-const LoginForm = () => {
+const LoginForm = ({ searchParams }: { searchParams: { from: string } }) => {
     const { loginSuccess, errorWithAction } = useSuccessToasts();
-
-    const searchParams = useSearchParams();
-    const callbackUrl = searchParams?.get("from") || "/dashboard";
+    const callbackUrl = searchParams?.from || "/dashboard";
     const form = useForm<FormDataType>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
