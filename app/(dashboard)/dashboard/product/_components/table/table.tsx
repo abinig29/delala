@@ -34,11 +34,12 @@ const ProductStatusFilter: { label: ProductStatus; value: string }[] = [
 export function ProductTable() {
 
   const { query } = useCustomSearchParams("name")
-  const { isLoading, data, error, isSuccess } = useFetchData<PaginationRes<IProduct>>(
+  const { isLoading, data, error, isSuccess, isFetching } = useFetchData<PaginationRes<IProduct>>(
     [KY.product, query],
     `product/user/my${query}`,
   );
   const columns = useMemo(() => getColumns(isLoading), []);
+  const isInitialLoading = isLoading && !isFetching;
 
   const filterFields: DataTableFilterField<IProduct>[] = [
     {
@@ -70,7 +71,7 @@ export function ProductTable() {
 
   return (
     <div className="w-full space-y-2.5 overflow-auto mt-4 bg-white p-6 shadow rounded-xl">
-      {data?.values?.length ? <div>
+      {!isInitialLoading ? <div>
         <DataTableToolbar table={table} filterFields={filterFields}>
           <ProductTableToolbarActions table={table} isLoading={!data?.values?.length} />
         </DataTableToolbar>
