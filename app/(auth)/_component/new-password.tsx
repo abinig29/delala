@@ -12,10 +12,7 @@ import useMutationFunc from "@/hooks/use-mutation";
 import { MTD } from "@/lib/constant";
 import { newPasswordSchema } from "@/lib/validation/auth";
 
-export const NewPassword = () => {
-  const searchParams = useSearchParams();
-  const email = searchParams?.get("email");
-  const pin = searchParams?.get("pin");
+export const NewPassword = ({ email, pin }: { email?: string, pin?: string }) => {
   const router = useRouter();
   type FormData = z.infer<typeof newPasswordSchema>;
   const {

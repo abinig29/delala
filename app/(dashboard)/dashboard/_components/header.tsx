@@ -6,13 +6,6 @@ import Notification from "./notification";
 
 
 const Header = () => {
-  const { data: session } = useSession();
-  // const user = session?.user?.user;
-  const user = {
-    name: "abel nigus",
-    image: "",
-    email: "abinig5@gmail.com",
-  }
 
 
   return (
@@ -20,11 +13,7 @@ const Header = () => {
       <div className=" flex  h-full items-center justify-end ">
         <div className="flex  flex-[0.2] items-center justify-end gap-3 px-6">
           <Notification />
-          <UserAccountNav
-            user={{
-              ...user
-            }}
-          />
+          <UserAccountNav />
 
         </div>
       </div>
