@@ -21,7 +21,7 @@ import { FormDataType } from '../page'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 
 const ProductStatusComponent = () => {
-    const { control } = useFormContext<FormDataType>();
+    const { control, watch } = useFormContext<FormDataType>();
     return (
         <Card x-chunk="dashboard-07-chunk-3">
             <CardHeader>
@@ -39,6 +39,7 @@ const ProductStatusComponent = () => {
                                     <Select
                                         onValueChange={field.onChange}
                                         defaultValue={field.value}
+                                        value={field.value}
                                     >
                                         <FormControl>
                                             <SelectTrigger>

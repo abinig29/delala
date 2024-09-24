@@ -13,6 +13,7 @@ import { IProduct, ProductStatus } from "@/types/db";
 import useCustomSearchParams from "@/hooks/use-as";
 import { useFetchData } from "@/hooks/use-query";
 import { KY } from "@/lib/constant";
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 
 const ProductStatusFilter: { label: ProductStatus; value: string }[] = [
   {
@@ -69,10 +70,21 @@ export function ProductTable() {
 
   return (
     <div className="w-full space-y-2.5 overflow-auto mt-4 bg-white p-6 shadow rounded-xl">
-      <DataTableToolbar table={table} filterFields={filterFields}>
-        <ProductTableToolbarActions table={table} isLoading={!data?.values?.length} />
-      </DataTableToolbar>
-      <DataTable table={table} isLoading={isLoading} />
+      {!isLoading ? <div>
+        <DataTableToolbar table={table} filterFields={filterFields}>
+          <ProductTableToolbarActions table={table} isLoading={!data?.values?.length} />
+        </DataTableToolbar>
+        <DataTable table={table} isLoading={isLoading} />
+      </div>
+        :
+        <DataTableSkeleton
+          columnCount={3}
+          searchableColumnCount={1}
+          filterableColumnCount={2}
+          cellWidths={["10rem", "40rem", "12rem", "12rem", "8rem"]}
+          shrinkZero
+        />
+      }
     </div>
   );
 }

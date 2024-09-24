@@ -24,8 +24,6 @@ type FormDataType = z.infer<typeof ChangePasswordSchema>;
 type FormFiledType = FieldPath<FormDataType>;
 export function SecuritySetting() {
   const { errorNoAction, changePasswordSuccess } = useSuccessToasts()
-
-
   const form = useForm<FormDataType>({
     resolver: zodResolver(ChangePasswordSchema),
     defaultValues: {
@@ -36,6 +34,7 @@ export function SecuritySetting() {
   const { mutateAsync, isPending } = useMutationFunc({
     onSuccess: (data: any) => {
       changePasswordSuccess()
+      form.reset()
     },
     onError: (data) => {
       errorNoAction(data?.message);

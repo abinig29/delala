@@ -13,6 +13,7 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useFetchData } from "@/hooks/use-query";
 import { KY } from "@/lib/constant";
 import useCustomSearchParams from "@/hooks/use-as";
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 
 
 const InquiryStatusFilter: { label: InquiryStatus; value: string }[] = [
@@ -29,10 +30,13 @@ const InquiryStatusFilter: { label: InquiryStatus; value: string }[] = [
 
 export function InquiryTable() {
   const { query } = useCustomSearchParams("name")
+
+  console.log({ query })
   const { isLoading, data, error, isSuccess } = useFetchData<PaginationRes<IInquiry>>(
     [KY.inquiry, query],
     `inquiry${query}`,
   );
+
 
 
 
@@ -68,10 +72,22 @@ export function InquiryTable() {
 
   return (
     <div className="w-full space-y-2.5 overflow-auto bg-white p-6 shadow rounded-xl">
-      <DataTableToolbar table={table} filterFields={filterFields}>
-        <InquiryTableToolbarActions table={table} isLoading={isLoading} />
-      </DataTableToolbar>
-      <DataTable table={table} isLoading={isLoading} />
+      {
+        isLoading ?
+          <DataTableSkeleton
+            columnCount={3}
+            searchableColumnCount={1}
+            filterableColumnCount={2}
+            cellWidths={["10rem", "40rem", "12rem", "12rem", "8rem"]}
+            shrinkZero
+          /> :
+          <div>
+            <DataTableToolbar table={table} filterFields={filterFields}>
+              <InquiryTableToolbarActions table={table} isLoading={isLoading} />
+            </DataTableToolbar>
+            <DataTable table={table} isLoading={isLoading} />
+          </div>
+      }
     </div>
   );
 }

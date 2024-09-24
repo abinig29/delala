@@ -16,14 +16,14 @@ const useCustomSearchParams = (searchTextName: string) => {
             ...(current?.page && { page: current?.page, }),
             ...(splitSort?.[0] && { sort: splitSort?.[0], }),
             ...(splitSort?.[1] && { sortOrder: splitSort?.[1], }),
-            ...(current?.searchText && { searchText: current[searchTextName] }),
+            ...(current?.[searchTextName] && { searchText: current[searchTextName] }),
             ...(current?.per_page && { limit: current?.per_page, }),
             ...filter
 
         },
     }, { skipEmptyString: true, skipNull: true });
 
-return { current, query };
+    return { current, query };
 };
 
 export default useCustomSearchParams;

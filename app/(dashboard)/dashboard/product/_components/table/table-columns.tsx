@@ -119,9 +119,9 @@ export function getColumns(isLoading: boolean): ColumnDef<IProduct>[] {
           <StatusBadge status={row?.original?.status as AllStatusType} />
         );
       },
-      filterFn: (row, id, value) => {
-        return Array.isArray(value) && value.includes(row.getValue(id));
-      },
+      // filterFn: (row, id, value) => {
+      //   return Array.isArray(value) && value.includes(row.getValue(id));
+      // },
     },
     {
       accessorKey: "adminStatus",
@@ -133,9 +133,9 @@ export function getColumns(isLoading: boolean): ColumnDef<IProduct>[] {
           <StatusBadge status={row?.original?.adminStatus as AllStatusType} />
         );
       },
-      filterFn: (row, id, value) => {
-        return Array.isArray(value) && value.includes(row.getValue(id));
-      },
+      // filterFn: (row, id, value) => {
+      //   return Array.isArray(value) && value.includes(row.getValue(id));
+      // },
     },
     {
       id: "actions",

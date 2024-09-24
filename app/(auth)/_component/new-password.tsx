@@ -41,9 +41,9 @@ export const NewPassword = () => {
     },
     onError: (data) => {
       toast({
-        variant: "default",
+        variant: "destructive",
         title: "Something went wrong!",
-        description: `error: ${data?.message}`,
+        description: `${data?.message}`,
       });
     },
   });

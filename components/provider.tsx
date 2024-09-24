@@ -5,7 +5,6 @@ import { SessionProvider } from "next-auth/react";
 import { type FC, type ReactNode } from "react";
 import { TooltipProvider } from "./ui/tooltip";
 import { Toaster } from "./ui/toaster";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
 interface LayoutProps {
   children: ReactNode;
@@ -14,15 +13,12 @@ interface LayoutProps {
 const queryClient = new QueryClient();
 
 const Providers: FC<LayoutProps> = ({ children }) => {
-  console.log({ google: process?.env?.NEXT_PUBLIC_GOOGLE_ID })
   return (
     <QueryClientProvider client={queryClient}>
-      <GoogleOAuthProvider clientId={process?.env?.NEXT_PUBLIC_GOOGLE_ID ?? ""}>
-        <TooltipProvider>
-          <Toaster />
-          <SessionProvider>{children}</SessionProvider>
-        </TooltipProvider>
-      </GoogleOAuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <SessionProvider>{children}</SessionProvider>
+      </TooltipProvider>
     </QueryClientProvider>
   );
 };

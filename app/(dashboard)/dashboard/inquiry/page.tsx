@@ -9,7 +9,7 @@ const Product = () => {
       <React.Suspense
         fallback={
           <DataTableSkeleton
-            columnCount={5}
+            columnCount={3}
             searchableColumnCount={1}
             filterableColumnCount={2}
             cellWidths={["10rem", "40rem", "12rem", "12rem", "8rem"]}

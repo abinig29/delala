@@ -25,6 +25,13 @@ const useSuccessToasts = () => {
             description: "Successfully logged in too your account",
         });
     };
+    const profileUpdateSuccess = () => {
+        toast({
+            variant: "default",
+            title: "Profile updated",
+            description: "Your profile has been updated successfully",
+        });
+    };
 
     const productCreated = () => {
         toast({
@@ -81,7 +88,8 @@ const useSuccessToasts = () => {
         changePasswordSuccess,
         verificationSuccess,
         productCreated,
-        productUpdated
+        productUpdated,
+        profileUpdateSuccess
     };
 };
 

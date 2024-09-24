@@ -16,6 +16,25 @@ export const updateAfterDelete = <T>(
     };
   });
 };
+
+export const updateAfterBulkDelete = <T>(
+  key: KY,
+  query: string,
+  queryClient: QueryClient,
+  ids: string[],
+) => {
+  queryClient.setQueryData([key, query], (prevData: PaginationRes<T>): PaginationRes<T> => {
+    return {
+      ...prevData,
+      count: prevData?.count ? prevData?.count - ids?.length : 0,
+      values: prevData?.values?.filter((cat: any) => !ids?.includes(cat.id)),
+    };
+  });
+};
+
+
+
+
 export const updateLocalData = <T>(
   method: MTD,
   key: KY,

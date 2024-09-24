@@ -19,6 +19,7 @@ export enum KY {
   inquiry,
   product,
   profile,
+  auth,
   service,
   classified
 }

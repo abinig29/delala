@@ -24,18 +24,34 @@ import { logTrace } from "@/lib/logger";
 import useMutationFunc from "@/hooks/use-mutation";
 import FormInput from "@/components/form-filed/form-input";
 import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
 
 type FormDataType = z.infer<typeof updateProfileSchema>;
 type FormFiledType = FieldPath<FormDataType>;
 export function BasicInfo() {
-  const { loginSuccess, errorWithAction } = useSuccessToasts();
+  const { profileUpdateSuccess, errorWithAction } = useSuccessToasts();
   const { isLoading, data, error, isSuccess } = useFetchData<IUserWithProfile>(
     [KY.profile],
     `profile`,
   );
+  const queryClient = useQueryClient()
+
 
   const { mutateAsync, isPending } = useMutationFunc({
-    onSuccess: (data: any) => {
+    onSuccess: (data: IUserWithProfile) => {
+      const currentData: IUserWithProfile = queryClient.getQueryData([KY.profile]) as IUserWithProfile;
+      const updatedData: IUserWithProfile = {
+        ...currentData,
+        fullName: data?.fullName,
+        profile: {
+          ...currentData?.profile,
+          address: data?.profile?.address,
+          phone: data?.profile?.phone
+        }
+      }
+      queryClient.setQueryData([KY.profile], { ...updatedData });
+      profileUpdateSuccess()
     },
     onError: (data) => {
       errorWithAction(data?.message, () => onSubmit(form.getValues()));

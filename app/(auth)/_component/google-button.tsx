@@ -43,16 +43,16 @@ export const CustomGoogleButton = ({ searchParams }: { searchParams: { from: str
         errorNoAction("Could not login with Google")
     }
 
-    const login = useGoogleLogin({
-        flow: 'auth-code',
-        onSuccess: onSuccess,
-        onError: onError,
-    });
+   
+
+    const handleLogin = () => {
+        window.location.href = process?.env?.NEXT_PUBLIC_BACKEND_URL + `/auth/google`
+    };
 
     return (
         <Button
-            isLoading={isPending}
-            onClick={() => login()}
+            // isLoading={isPending}
+            onClick={handleLogin}
             className="w-full" variant="outline">
             <svg
                 className="w-5 h-5 mr-2"

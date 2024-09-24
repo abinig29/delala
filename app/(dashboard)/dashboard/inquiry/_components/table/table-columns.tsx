@@ -28,6 +28,7 @@ import { KY, MTD } from "@/lib/constant";
 import useCustomSearchParams from "@/hooks/use-as";
 import { useQueryClient } from "@tanstack/react-query";
 import useSuccessToasts from "@/hooks/use-customToast";
+import Link from "next/link";
 
 
 export function getColumns(isLoading: boolean): ColumnDef<IInquiry>[] {
@@ -72,16 +73,18 @@ export function getColumns(isLoading: boolean): ColumnDef<IInquiry>[] {
       ),
       cell: ({ row }) => {
         return (
-          <div className="flex space-x-2 ">
+          <Link
+          href={`/dashboard/product/${row?.original?.productId}`}
+           className="flex space-x-2 hover:underline ">
             <span className="max-w-[31.25rem] truncate font-medium">
               {row.original?.product?.name}
             </span>
-          </div>
+          </Link>
         );
       },
     },
     {
-      accessorKey: "phoneNumber",
+      accessorKey: "phone",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Phone Number" />
       ),
@@ -92,9 +95,9 @@ export function getColumns(isLoading: boolean): ColumnDef<IInquiry>[] {
           </div>
         );
       },
-      filterFn: (row, id, value) => {
-        return Array.isArray(value) && value.includes(row.getValue(id));
-      },
+      // filterFn: (row, id, value) => {
+      //   return Array.isArray(value) && value.includes(row.getValue(id));
+      // },
     },
     {
       accessorKey: "Inquiry Date",
@@ -108,9 +111,9 @@ export function getColumns(isLoading: boolean): ColumnDef<IInquiry>[] {
           </div>
         );
       },
-      filterFn: (row, id, value) => {
-        return Array.isArray(value) && value.includes(row.getValue(id));
-      },
+      // filterFn: (row, id, value) => {
+      //   return Array.isArray(value) && value.includes(row.getValue(id));
+      // },
     },
     {
       accessorKey: "status",

@@ -13,12 +13,18 @@ export interface IInquiry {
     email: string;
     note: string;
     status: InquiryStatus
+    productId: string,
     product: IProduct;
     createdAt: Date;
     updatedAt: Date;
 }
 
-
+export interface INotification {
+    id: number
+    title: string
+    description: string
+    time: string
+}
 
 
 export enum ProductStatus {

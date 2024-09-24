@@ -38,9 +38,11 @@ const ProductCreate = ({ params }: { params: { slug: string } }) => {
     const form = useForm<FormDataType>({
         resolver: zodResolver(CreateProductSchema),
         defaultValues: {
-            status: "DRAFT",
-            category: "VEHICLE",
-            images: []
+            ...(isCreate && {
+                status: "DRAFT",
+                category: "VEHICLE",
+                images: []
+            })
         }
     });
     const router = useRouter()
@@ -63,8 +65,10 @@ const ProductCreate = ({ params }: { params: { slug: string } }) => {
 
     useEffect(() => {
         if (isSuccess && data) {
+            console.log({ data })
             form.reset({
                 ...data,
+                status: data?.status
             });
         }
     }, [isSuccess, data, form.reset]);

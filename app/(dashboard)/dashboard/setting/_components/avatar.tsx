@@ -9,16 +9,30 @@ import {
 import PhotoUploader from "@/components/common/image-uploader";
 import useMutationFunc from "@/hooks/use-mutation";
 import useSuccessToasts from "@/hooks/use-customToast";
-import { MTD } from "@/lib/constant";
+import { KY, MTD } from "@/lib/constant";
 import { logTrace } from "@/lib/logger";
 import { Button } from "@/components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
+import { IUserWithProfile } from "@/types/interface";
 
 const Avatar = ({ image }: { image?: string | null }) => {
+  const { profileUpdateSuccess } = useSuccessToasts()
 
   const [imageUrl, setImageUrl] = useState(image)
+  const queryClient = useQueryClient()
   const { errorNoAction } = useSuccessToasts()
   const { mutateAsync, isPending } = useMutationFunc({
-    onSuccess: (data: any) => {
+    onSuccess: (data: IUserWithProfile) => {
+      const currentData: IUserWithProfile = queryClient.getQueryData([KY.profile]) as IUserWithProfile;
+      const updatedData: IUserWithProfile = {
+        ...currentData,
+        profile: {
+          ...currentData?.profile,
+          avatar: data?.profile?.avatar
+        }
+      }
+      queryClient.setQueryData([KY.profile], { ...updatedData });
+      profileUpdateSuccess()
     },
     onError: (data) => {
       errorNoAction(data?.message);

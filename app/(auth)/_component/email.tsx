@@ -10,13 +10,11 @@ import { toast } from "@/hooks/use-toast";
 import useMutationFunc from "@/hooks/use-mutation";
 import { MTD } from "@/lib/constant";
 import { resetPasswordEmailSchema } from "@/lib/validation/auth";
+import useSuccessToasts from "@/hooks/use-customToast";
 
-export const EmailInput = ({
-  setScreen,
-}: {
-  setScreen: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+export const EmailInput = () => {
   type emailType = z.infer<typeof resetPasswordEmailSchema>;
+  const { errorNoAction } = useSuccessToasts()
   const {
     register,
     handleSubmit,
@@ -31,27 +29,12 @@ export const EmailInput = ({
       toast({
         variant: "default",
         title: "Check Your Email",
-        description: " you will receive a password reset OTP.",
+        description: " you will receive email with instruction to reset your password.",
       });
-      setScreen(2);
-      router.push(`/password-reset?email=${watch("email")}`);
+      // router.push(`/login`);
     },
     onError: (data) => {
-      toast({
-        variant: "default",
-        title: "Something went wrong!",
-        description: `error: ${data?.message}`,
-        action: (
-          <ToastAction
-            onClick={async () => {
-              operation();
-            }}
-            altText="Try again"
-          >
-            Try again
-          </ToastAction>
-        ),
-      });
+      errorNoAction(data?.message)
     },
   });
   const operation = async () => {
