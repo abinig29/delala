@@ -70,7 +70,7 @@ export function ProductTable() {
 
   return (
     <div className="w-full space-y-2.5 overflow-auto mt-4 bg-white p-6 shadow rounded-xl">
-      {!isLoading ? <div>
+      {data?.values?.length ? <div>
         <DataTableToolbar table={table} filterFields={filterFields}>
           <ProductTableToolbarActions table={table} isLoading={!data?.values?.length} />
         </DataTableToolbar>
