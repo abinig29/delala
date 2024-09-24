@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery, UseQueryResult, UseQueryOptions, keepPreviousData } from "@tanstack/react-query";
 import useAxiosAuth from "./use-axios-auth";
 import { AxiosError } from "axios";
 import { error } from "console";
@@ -32,6 +32,6 @@ export const useFetchData = <T>(
 
     },
     enabled: enabled ?? true,
-
+    placeholderData: keepPreviousData,
   });
 };

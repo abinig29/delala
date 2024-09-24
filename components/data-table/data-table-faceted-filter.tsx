@@ -85,7 +85,6 @@ export function DataTableFacetedFilter<TData, TValue>({
             <CommandGroup>
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value);
-                console.log({ option })
                 return (
                   <div
                     key={option.value}
@@ -112,12 +111,6 @@ export function DataTableFacetedFilter<TData, TValue>({
                     >
                       <CheckIcon className="size-4" aria-hidden="true" />
                     </div>
-                    {option.icon && (
-                      <option.icon
-                        className="mr-2 size-4 text-muted-foreground"
-                        aria-hidden="true"
-                      />
-                    )}
                     <span>{option.label}</span>
                     {option.withCount &&
                       column?.getFacetedUniqueValues()?.get(option.value) && (

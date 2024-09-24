@@ -15,18 +15,18 @@ import { useFetchData } from "@/hooks/use-query";
 import { KY } from "@/lib/constant";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 
-const ProductStatusFilter: { label: ProductStatus; value: string }[] = [
+const ProductStatusFilter: { label: string; value: ProductStatus }[] = [
   {
-    label: ProductStatus.ACTIVE,
-    value: ProductStatus.ACTIVE
+    value: ProductStatus.ACTIVE,
+    label: "Active"
   },
   {
-    label: ProductStatus.ARCHIVE,
-    value: ProductStatus.ARCHIVE
+    value: ProductStatus.ARCHIVE,
+    label: "Archive"
   },
   {
-    label: ProductStatus.DRAFT,
-    value: ProductStatus.DRAFT
+    value: ProductStatus.DRAFT,
+    label: "Draft"
   },
 
 ];
@@ -39,7 +39,8 @@ export function ProductTable() {
     `product/user/my${query}`,
   );
   const columns = useMemo(() => getColumns(isLoading), []);
-  const isInitialLoading = isLoading && !isFetching;
+  // const isInitialLoading = isLoading && !isFetching;
+  console.log({ isFetching, isLoading })
 
   const filterFields: DataTableFilterField<IProduct>[] = [
     {
@@ -71,7 +72,7 @@ export function ProductTable() {
 
   return (
     <div className="w-full space-y-2.5 overflow-auto mt-4 bg-white p-6 shadow rounded-xl">
-      {!isInitialLoading ? <div>
+      {!isLoading ? <div>
         <DataTableToolbar table={table} filterFields={filterFields}>
           <ProductTableToolbarActions table={table} isLoading={!data?.values?.length} />
         </DataTableToolbar>

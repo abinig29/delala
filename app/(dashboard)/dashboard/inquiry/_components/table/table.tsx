@@ -16,13 +16,13 @@ import useCustomSearchParams from "@/hooks/use-as";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 
 
-const InquiryStatusFilter: { label: InquiryStatus; value: string }[] = [
+const InquiryStatusFilter: { label: string; value: InquiryStatus }[] = [
   {
-    label: InquiryStatus.ANSWERED,
+    label: "Answered",
     value: InquiryStatus.ANSWERED,
   },
   {
-    label: InquiryStatus.PENDING,
+    label: "Pending",
     value: InquiryStatus.PENDING,
   },
 

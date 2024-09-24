@@ -63,12 +63,18 @@ export function getColumns(isLoading: boolean): ColumnDef<IProduct>[] {
         <DataTableColumnHeader column={column} title="Product Image" />
       ),
       cell: ({ row }) => <div className="w-20 h-10">
-        <Image
-          src={row?.original?.images?.[0]}
-          alt=""
-          width={600}
-          height={600}
-          className="w-full h-full object-cover rounded" />
+        {
+          row?.original?.images?.[0] ? <Image
+            src={row?.original?.images?.[0]}
+            alt=""
+            width={600}
+            height={600}
+            className="w-full h-full object-cover rounded" /> :
+            <div className=" bg-blue-200/30 text-muted-foreground h-full grid place-content-center">
+              No Image
+            </div>
+        }
+
       </div>,
       enableSorting: false,
       enableHiding: false,
