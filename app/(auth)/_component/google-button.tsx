@@ -1,50 +1,9 @@
 "use client"
 import React from 'react';
-import { CodeResponse, CredentialResponse, useGoogleLogin } from '@react-oauth/google';
 import { Button } from '@/components/ui/button';
-import useMutationFunc from '@/hooks/use-mutation';
-import { signIn } from 'next-auth/react';
-import useSuccessToasts from '@/hooks/use-customToast';
-import { MTD } from '@/lib/constant';
-import { logTrace } from '@/lib/logger';
+
 
 export const CustomGoogleButton = ({ searchParams }: { searchParams: { from: string } }) => {
-    const { loginSuccess, errorNoAction } = useSuccessToasts();
-    const callbackUrl = searchParams?.from || "/dashboard";
-    const { mutateAsync, isPending } = useMutationFunc({
-        onSuccess: (data: any) => {
-            signIn("credentials", {
-                data: JSON.stringify(data),
-                redirect: true,
-                callbackUrl,
-            });
-            loginSuccess()
-        },
-        onError: (data) => {
-            errorNoAction(data?.message);
-        },
-    });
-    const onSuccess = async (credentialResponse: Omit<CodeResponse, "error" | "error_description" | "error_uri">) => {
-        const dataToBeSent = {
-            token: credentialResponse.code,
-        };
-        try {
-            await mutateAsync({
-                url: "auth/google/callback",
-                method: MTD.POST,
-                body: dataToBeSent,
-            });
-        } catch (e: any) {
-            logTrace("LOGIN ERROR=>/////", e);
-        }
-    };
-
-    const onError = () => {
-        errorNoAction("Could not login with Google")
-    }
-
-   
-
     const handleLogin = () => {
         window.location.href = process?.env?.NEXT_PUBLIC_BACKEND_URL + `/auth/google`
     };
