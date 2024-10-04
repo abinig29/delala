@@ -21,7 +21,9 @@ export enum KY {
   profile,
   auth,
   service,
-  classified
+  classified,
+  carMake,
+  jobCategory
 }
 
 export const DATE_OPTIONS: Intl.DateTimeFormatOptions = {

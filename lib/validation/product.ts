@@ -28,13 +28,14 @@ const CreateJobDetailsSchema = z.object({
     company: z.string().optional(),
     location: z.string().optional(),
     salary: z.coerce.number().optional(),
-    description: z.string().optional(),
+    // description: z.string().optional(),
+    jobCategoryId: z.string().optional()
 });
 
 const CreateVehicleDetailsSchema = z.object({
     type: VehicleTypeEnum,
-    make: z.string(),
-    model: z.string(),
+    makeId: z.string(),
+    model: z.string().optional(),
     year: z.coerce.number().int(),
     price: z.coerce.number(),
     fuelType: FuelTypeEnum,

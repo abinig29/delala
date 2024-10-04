@@ -54,6 +54,12 @@ export interface IService {
     icon?: string
 }
 
+export interface ICarMake {
+    id: string
+    name: string
+    icon?: string
+}
+
 export interface MainCategory {
     id: string
     name: string

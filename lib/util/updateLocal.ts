@@ -52,7 +52,7 @@ export const updateLocalData = <T>(
         return {
           ...prevData,
           count: count + 1,
-          body: [...data, newData?.body ? newData.body : null],
+          body: [newData?.body ? newData.body : null, ...data],
         };
       });
       reset();

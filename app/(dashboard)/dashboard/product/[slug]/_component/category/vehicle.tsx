@@ -11,10 +11,17 @@ import { FormDataType } from '../../page';
 import { useFormContext } from 'react-hook-form';
 import { FuelTypeEnum, TransmissionTypeEnum, VehicleConditionEnum, VehicleTypeEnum } from '@/lib/validation/product';
 import { Input } from '@/components/ui/input';
+import { ICarMake } from '@/types/db';
+import { useFetchData } from '@/hooks/use-query';
+import { KY } from '@/lib/constant';
 
 
 const VehicleDetailForm = () => {
     const { control } = useFormContext<FormDataType>();
+    const { isLoading, data, } = useFetchData<ICarMake[]>(
+        [KY.carMake],
+        `carMake`,
+    );
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -40,16 +47,28 @@ const VehicleDetailForm = () => {
                 )}
             />
 
-            {/* Make */}
+
+
             <FormField
                 control={control}
-                name="vehicleDetail.make"
+                name="vehicleDetail.makeId"
                 render={({ field }) => (
                     <FormItem>
                         <FormLabel>Make</FormLabel>
-                        <FormControl>
-                            <Input placeholder="Enter make" {...field} />
-                        </FormControl>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Car Make" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                {data?.map((make) => (
+                                    <SelectItem key={make.id} value={make.id}>
+                                        {make.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                         <FormMessage />
                     </FormItem>
                 )}

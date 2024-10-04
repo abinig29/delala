@@ -12,10 +12,17 @@ import { useFormContext } from 'react-hook-form';
 import { FurnishingStatusEnum, JobTypeEnum, ProductIntentEnum, PropertyTypeEnum } from '@/lib/validation/product';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useFetchData } from '@/hooks/use-query';
+import { KY } from '@/lib/constant';
+import { ICarMake } from '@/types/db';
 
 
 const JobDetailForm = () => {
     const { control } = useFormContext<FormDataType>();
+    const { isLoading, data, } = useFetchData<ICarMake[]>(
+        [KY.jobCategory],
+        `jobCategory`,
+    );
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -56,6 +63,31 @@ const JobDetailForm = () => {
                     </FormItem>
                 )}
             />
+            
+            <FormField
+                control={control}
+                name="jobDetail.jobCategoryId"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Job Category</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Category" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                {data?.map((category) => (
+                                    <SelectItem key={category.id} value={category.id}>
+                                        {category.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
 
             {/* Location */}
             <FormField
@@ -86,21 +118,7 @@ const JobDetailForm = () => {
                     </FormItem>
                 )}
             />
-            <div className=' col-span-2'>
-                <FormField
-                    control={control}
-                    name="jobDetail.description"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                                <Textarea placeholder="Enter job description" {...field} className='min-h-40' />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </div>
+
 
         </div>
 

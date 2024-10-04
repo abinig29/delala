@@ -49,7 +49,7 @@ export function ProductTableToolbarActions({
   const onSubmit = async () => {
     try {
       await mutateAsync({
-        url: `inquiry/bulk-delete`,
+        url: `product/bulk-delete`,
         method: MTD.DELETE,
         body: { ids }
       });

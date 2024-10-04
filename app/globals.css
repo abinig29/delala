@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-
-
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -76,4 +71,19 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Hide scrollbars in WebKit browsers (Chrome, Safari, newer versions of Edge) */
+::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
+/* Hide scrollbars in Firefox */
+html {
+  scrollbar-width: none; /* For Firefox */
+}
+
+/* For Internet Explorer and older versions of Edge */
+html {
+  -ms-overflow-style: none; /* For IE and Edge */
 }
