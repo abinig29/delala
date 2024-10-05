@@ -9,7 +9,6 @@ import { logTrace } from '@/lib/logger';
 import { loginSchema } from '@/lib/validation/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
 import React from 'react'
 import { FieldPath, useForm } from 'react-hook-form';
 import { z } from 'zod';

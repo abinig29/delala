@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import FavoriteButton from "@/components/favorite-button"
 
 interface VehicleCardProps {
     type: string
@@ -31,23 +32,14 @@ export default function VehicleCard({
 }: VehicleCardProps) {
     return (
         <Link href={"/product/vehicle/123"}>
-            <Card className="w-full max-w-sm overflow-hidden">
+            <Card className="w-full max-w-sm overflow-hidden group">
                 <div className="relative">
                     <img
                         src="/redcar.png"
                         alt="Apartment interior"
-                        className="w-full h-48 object-cover"
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-all delay-100"
                     />
-                    {/* <div className="absolute top-2 left-2 flex gap-2">
-                    <Badge variant="default">{condition}</Badge>
-                </div> */}
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        className="absolute top-2 right-2 text-primary-foreground hover:text-primary hover:bg-primary-foreground"
-                    >
-                        <Heart className="h-5 w-5" />
-                    </Button>
+                    <FavoriteButton />
                 </div>
 
                 <CardContent className="pt-4">

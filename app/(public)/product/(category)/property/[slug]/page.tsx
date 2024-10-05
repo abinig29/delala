@@ -41,7 +41,7 @@ export default function PropertyDetailPage() {
                         <div>
                             <p className="text-muted-foreground">
                                 Welcome to your beautifully renovated dream home! This stunning property has been meticulously
-                                upgraded with attention to every detail. From the moment you arrive, you'll notice the care taken
+                                upgraded with attention to every detail. From the moment you arrive, you will notice the care taken
                                 to enhance every aspect of this home. Be the envy of your neighbors! This home boasts an oversized lot -
                                 much larger than the neighbors that offers 50 additional square feet others do! Outside, the exterior
                                 has been revitalized with fresh paint and new house numbers and exterior lights that not only add curb
@@ -95,7 +95,7 @@ export default function PropertyDetailPage() {
                                 <div className="flex items-center text-sm"><Square className="h-4 w-4 mr-2" /> $756 per sqft</div>
                             </div>
                             <div className="mb-4">
-                                <h4 className="font-medium mb-2">What's special</h4>
+                                <h4 className="font-medium mb-2">What is special</h4>
                                 <div className="flex flex-wrap gap-2">
                                     {["stylish tile backsplash", "garage man door", "chrome shower trim kits", "luxurious quartz countertops", "new house numbers", "oversized lot"].map((feature, index) => (
                                         <span key={index} className="bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-full">{feature}</span>

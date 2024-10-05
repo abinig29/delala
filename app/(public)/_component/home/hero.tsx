@@ -21,8 +21,9 @@ export default function HeroSection() {
             <CarouselContent>
 
                 {
-                    Categories?.map(Category => {
-                        return <CarouselItem>
+                    Categories?.map((Category, index) => {
+                        return <CarouselItem
+                            key={index}>
                             <Category />
                         </CarouselItem>
                     })

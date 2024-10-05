@@ -30,7 +30,7 @@ export default function CategorySelector() {
             <GlobalFilter />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {categories.map((category) => (
-                    <Link href={"/product/classified/electronics"}>
+                    <Link key={category?.name} href={"/product/classified/electronics"}>
                         <Card key={category.name} className=" transition-shadow duration-300">
                             <CardContent className="flex flex-col items-center justify-center p-6">
                                 <div className="bg-main rounded-full p-4 mb-4 text-white">

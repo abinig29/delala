@@ -113,7 +113,7 @@ export default function FilterProduct() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
                 {searchResults.map((item) => (
-                    <Link href='/product/classified/electronics/123'>
+                    <Link key={item?.id} href='/product/classified/electronics/123'>
                         <Card key={item.id} className="group overflow-hidden transition-shadow rounded-sm">
                             <div className="relative">
                                 <img

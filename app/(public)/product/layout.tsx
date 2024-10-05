@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import CategoryHeader from "../_component/category-header"
 
 export default function PublicLayout({
@@ -8,8 +9,10 @@ export default function PublicLayout({
     return (
         <div
         >
+            <Suspense fallback={<div></div>}>
+                {children}
+            </Suspense>
             {/* <CategoryHeader /> */}
-            {children}
         </div>
     );
 }

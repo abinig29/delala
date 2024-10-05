@@ -128,7 +128,7 @@ export default function PropertyDetailPage() {
 
                             </div>
                             <div className="mb-4">
-                                <h4 className="font-medium mb-2">What's special</h4>
+                                <h4 className="font-medium mb-2">What is special</h4>
                                 <div className="flex flex-wrap gap-2">
                                     {vehicleData?.features?.map((feature, index) => (
                                         <span key={index} className="bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-full">{feature}</span>

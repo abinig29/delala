@@ -56,7 +56,7 @@ const FilterSidebar = () => {
                     <SelectContent>
                         {
                             JobType?.map(vt => {
-                                return <SelectItem value={vt}>{vt}</SelectItem>
+                                return <SelectItem key={vt} value={vt}>{vt}</SelectItem>
                             })
                         }
                     </SelectContent>

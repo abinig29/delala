@@ -83,7 +83,7 @@ export default function SimilarVehicles() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {similarVehicles.map((vehicle) => (
-                        <Link href={"/product/property/123"}>
+                        <Link key={vehicle?.id} href={"/product/property/123"}>
                             <Card key={vehicle.id} className="overflow-hidden">
                                 <div className="relative">
                                     <Image

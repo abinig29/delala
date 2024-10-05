@@ -111,7 +111,7 @@ export default function ProductDetail() {
 
 
                     <div className="space-y-2">
-                        <h2 className="">What's special</h2>
+                        <h2 className="">What is special</h2>
                         <ul className="list-disc list-inside text-gray-600">
                             <li>Adjustable resistance levels</li>
                             <li>Digital display for tracking progress</li>

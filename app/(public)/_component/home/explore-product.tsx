@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/common/icons"
 import ProductCard from "./product-card"
+import Link from "next/link"
 
 const products = [
     {
@@ -61,14 +62,17 @@ export default function ExploreProducts() {
             <div className="container mx-auto">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-2xl font-bold">Explore Products</h2>
-                    <Button variant={"outline"} className="bg-transparent gap-1">
-                        View All
-                        <Icons.arrowRight size={13} />
-                    </Button>
+                    <Link href="/product">
+                        <Button variant={"outline"} className="bg-transparent gap-1">
+                            View All
+                            <Icons.arrowRight size={13} />
+                        </Button>
+                    </Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {products.map((product) => (
+                    {products.map((product, index) => (
                         <ProductCard
+                            key={index}
                         // product={product}
                         />
                     ))}

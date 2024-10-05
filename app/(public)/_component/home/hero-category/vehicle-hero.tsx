@@ -82,7 +82,7 @@ export default function VehicleSearch() {
                                     <SelectContent>
                                         {
                                             vehicleTypes?.map(vt => {
-                                                return <SelectItem value={vt}>{vt}</SelectItem>
+                                                return <SelectItem key={vt} value={vt}>{vt}</SelectItem>
                                             })
                                         }
                                     </SelectContent>
@@ -100,7 +100,7 @@ export default function VehicleSearch() {
                                     <SelectContent>
                                         {
                                             fuelType?.map(ft => {
-                                                return <SelectItem value={ft}>{ft}</SelectItem>
+                                                return <SelectItem key={ft} value={ft}>{ft}</SelectItem>
                                             })
                                         }
                                     </SelectContent>

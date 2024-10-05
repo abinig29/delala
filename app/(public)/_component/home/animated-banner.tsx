@@ -60,7 +60,7 @@ export default function EnhancedModernBanner() {
                         transition={{ duration: 0.5, delay: 0.6 }}
                         className="text-lg mb-6"
                     >
-                        It's more affordable than ever to give every room in your home a stylish makeover
+                        It is more affordable than ever to give every room in your home a stylish makeover
                     </motion.p>
                     <motion.button
                         whileHover={{ scale: 1.05 }}

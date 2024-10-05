@@ -62,7 +62,7 @@ export default function SimilarProperties() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {properties.map((property) => (
-                    <Link href={"/product/property/123"}>
+                    <Link key={property?.id} href={"/product/property/123"}>
                         <Card key={property.id} className="overflow-hidden">
                             <div className="relative">
                                 <Image
