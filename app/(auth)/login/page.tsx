@@ -84,9 +84,9 @@ function TelegramLogin() {
     }, []);
 
 
-
     const handleLogin = () => {
-        const link = "https://oauth.telegram.org/auth?bot_id=7658339527&origin=https%3A%2F%2Fdelala.vercel.app&embed=1&request_access=write&return_to=https%3A%2F%2Fdelala.vercel.app%2Flogin"
+        const loginLink = `${process.env.NEXTAUTH_URL}/login`
+        const link = `https://oauth.telegram.org/auth?bot_id=7658339527&origin=${process.env.NEXTAUTH_URL}&embed=1&request_access=write&return_to${loginLink}`
         window.location.href = link;
     }
     return <div id='telegram' >
