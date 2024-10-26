@@ -1,4 +1,5 @@
 "use client"
+import { useEffect } from 'react';
 import Link from "next/link"
 import LoginForm from "../_component/user-auth"
 import { CustomGoogleButton } from "../_component/google-button"
@@ -51,9 +52,9 @@ export default function Login({ searchParams }: { searchParams: { from: string }
 
 
 
-import { useEffect } from 'react';
 
-export function TelegramLogin() {
+
+function TelegramLogin() {
     useEffect(() => {
         const script = document.createElement('script');
         script.src = "https://telegram.org/js/telegram-widget.js?22";
