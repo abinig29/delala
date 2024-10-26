@@ -66,8 +66,19 @@ function TelegramLogin() {
         script.setAttribute('data-request-access', 'write');
         document?.getElementById('telegram-login-container')?.appendChild(script);
     }, []);
+    const handleTelegramLogin = () => {
+        if (typeof window?.TWidgetLogin !== 'undefined') {
+            window?.TWidgetLogin.auth();
+        } else {
+            console.warn("Telegram Widget not loaded yet");
+        }
+    };
 
     return <div id='telegram' className={styles.telegramContainer}>
-        <div id="telegram-login-container" className='w-full'></div>
+        <div id="telegram-login-container" style={{ display: 'none' }}></div>
+        <button className={styles.customTelegramButton} onClick={handleTelegramLogin}>
+            <i className={styles.customTelegramIcon}></i> Log in with Telegram
+        </button>
+
     </div>
 }
