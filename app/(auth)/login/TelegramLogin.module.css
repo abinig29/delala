@@ -33,3 +33,7 @@ body.body_widget_login {
   width: 100% !important;
   background-color: white !important;
 }
+
+button.tgme_widget_login_button {
+  background-color: black !important;
+}
