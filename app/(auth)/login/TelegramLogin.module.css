@@ -9,9 +9,9 @@
 
 /* Targeting iframe within the widget to attempt icon color change */
 .telegramContainer iframe {
-  filter: invert(
-    1
-  ); /* Attempts to invert colors (black icon on light background) */
+  filter: invert(1);
+  background-color: white !important;
+  width: 100% !important; 
 }
 button.tgme_widget_login_button {
   background-color: white;
@@ -20,4 +20,15 @@ button.tgme_widget_login_button {
 .telegram-login-AbelDelalaBot {
   background-color: white !important;
   width: 100% !important;
+}
+
+.body_widget_login {
+  background-color: white !important;
+  width: 100% !important;
+}
+
+.telegramContainer iframe {
+  filter: invert(
+    1
+  ); /* Attempts to invert colors (black icon on light background) */
 }
