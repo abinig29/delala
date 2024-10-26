@@ -60,25 +60,15 @@ function TelegramLogin() {
         script.src = "https://telegram.org/js/telegram-widget.js?22";
         script.async = true;
         script.setAttribute('data-telegram-login', 'AbelDelalaBot');
+        script.setAttribute('data-userpic', 'false');
         script.setAttribute('data-size', 'large');
         script.setAttribute('data-radius', '4');
         script.setAttribute('data-auth-url', '/api/telegram-auth');
         script.setAttribute('data-request-access', 'write');
         document?.getElementById('telegram-login-container')?.appendChild(script);
     }, []);
-    const handleTelegramLogin = () => {
-        if (typeof window?.TWidgetLogin !== 'undefined') {
-            window?.TWidgetLogin.auth();
-        } else {
-            console.warn("Telegram Widget not loaded yet");
-        }
-    };
 
-    return <div id='telegram' className={styles.telegramContainer}>
-        <div id="telegram-login-container" style={{ display: 'none' }}></div>
-        <button className={styles.customTelegramButton} onClick={handleTelegramLogin}>
-            <i className={styles.customTelegramIcon}></i> Log in with Telegram
-        </button>
-
+    return <div id='telegram' >
+        <div id="telegram-login-container" ></div>
     </div>
 }
