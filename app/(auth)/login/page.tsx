@@ -64,7 +64,7 @@ function TelegramLogin() {
         script.setAttribute('data-userpic', 'false');
         script.setAttribute('data-size', 'large');
         script.setAttribute('data-radius', '4');
-        script.setAttribute('data-auth-url', 'http://localhost:5000/api/auth/telegram/callback');
+        script.setAttribute('data-auth-url', `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/telegram/callback`);
         script.setAttribute('data-request-access', 'write');
         document?.getElementById('telegram-login-container')?.appendChild(script);
 
