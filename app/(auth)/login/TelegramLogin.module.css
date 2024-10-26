@@ -11,7 +11,7 @@
 .telegramContainer iframe {
   filter: invert(1);
   background-color: white !important;
-  width: 100% !important; 
+  width: 100% !important;
 }
 button.tgme_widget_login_button {
   background-color: white;
@@ -31,4 +31,20 @@ button.tgme_widget_login_button {
   filter: invert(
     1
   ); /* Attempts to invert colors (black icon on light background) */
+}
+
+.TelegramLogin_telegramContainer__gWE6Q {
+  padding: 0px !important;
+}
+
+body.body_widget_login {
+  width: 100% !important;
+}
+
+.tgme_widget_login.large button.tgme_widget_login_button {
+  width: 100% !important;
+  font-size: 14px;
+}
+
+.tgme_widget_login.large button.tgme_widget_login_button {
 }
