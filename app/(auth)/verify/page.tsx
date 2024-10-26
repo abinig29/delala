@@ -6,10 +6,10 @@ import { KY } from '@/lib/constant';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 
-const AuthenticatingPage = ({ searchParams }: { searchParams: { token?: string, userId: string } }) => {
+const AuthenticatingPage = ({ searchParams }: { searchParams: { auth_date?: string, first_name: string, id: string, username: string } }) => {
     const { isLoading, data, error, isSuccess } = useFetchData(
         [KY.auth],
-        `auth/telegram/verify?userId=${searchParams?.userId}&token=${searchParams?.token}`,
+        `auth/telegram/checkToken?auth_date=${searchParams?.auth_date}&first_name=${searchParams?.first_name}&id=${searchParams?.id}&username=${searchParams?.username}`,
     );
 
     useEffect(() => {
