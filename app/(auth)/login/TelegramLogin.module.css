@@ -1,3 +1,9 @@
+.TelegramLogin_telegramContainer__gWE6Q {
+  padding: 0px !important;
+}
+body.widget_frame_base {
+  width: 100% !important;
+}
 .telegramContainer {
   width: 100%;
   display: flex;
@@ -14,7 +20,7 @@
   width: 100% !important;
 }
 button.tgme_widget_login_button {
-  background-color: white;
+  width: 100%;
 }
 
 .telegram-login-AbelDelalaBot {
@@ -22,29 +28,7 @@ button.tgme_widget_login_button {
   width: 100% !important;
 }
 
-.body_widget_login {
-  background-color: white !important;
-  width: 100% !important;
-}
-
-.telegramContainer iframe {
-  filter: invert(
-    1
-  ); /* Attempts to invert colors (black icon on light background) */
-}
-
-.TelegramLogin_telegramContainer__gWE6Q {
-  padding: 0px !important;
-}
-
-body.body_widget_login {
-  width: 100% !important;
-}
-
 .tgme_widget_login.large button.tgme_widget_login_button {
   width: 100% !important;
   font-size: 14px;
-}
-
-.tgme_widget_login.large button.tgme_widget_login_button {
 }
