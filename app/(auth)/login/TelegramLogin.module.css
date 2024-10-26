@@ -1,0 +1,15 @@
+.telegramContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px; /* Optional rounded corners */
+}
+
+/* Targeting iframe within the widget to attempt icon color change */
+.telegramContainer iframe {
+  filter: invert(
+    1
+  ); /* Attempts to invert colors (black icon on light background) */
+}

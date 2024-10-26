@@ -6,7 +6,7 @@ import { CustomGoogleButton } from "../_component/google-button"
 import Script from "next/script"
 import { signIn } from "next-auth/react"
 import TelegramSignInButton from "../_component/telegram-button"
-
+import styles from './TelegramLogin.module.css';
 export default function Login({ searchParams }: { searchParams: { from: string } }) {
 
     const handleTelegramLogin = () => {
@@ -67,5 +67,7 @@ function TelegramLogin() {
         document?.getElementById('telegram-login-container')?.appendChild(script);
     }, []);
 
-    return <div id="telegram-login-container"></div>;
+    return <div className={styles.telegramContainer}>
+        <div id="telegram-login-container"></div>
+    </div>
 }
