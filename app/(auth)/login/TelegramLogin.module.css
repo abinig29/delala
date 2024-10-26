@@ -15,11 +15,21 @@
   width: 100% !important;
 }
 .telegramContainer body {
-  width: 100%;
-  background-color: white;
+  width: 100% !important;
+  background-color: white !important;
 }
 
 .telegramContainer button {
   width: 100%;
   background-color: white;
+}
+
+body.widget_frame_base {
+  width: 100% !important;
+  background-color: white !important;
+}
+
+body.body_widget_login {
+  width: 100% !important;
+  background-color: white !important;
 }
