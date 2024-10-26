@@ -7,6 +7,7 @@ import Script from "next/script"
 import { signIn } from "next-auth/react"
 import TelegramSignInButton from "../_component/telegram-button"
 import styles from './TelegramLogin.module.css';
+import { Button } from '@/components/ui/button';
 export default function Login({ searchParams }: { searchParams: { from: string } }) {
 
     const handleTelegramLogin = () => {
@@ -82,7 +83,20 @@ function TelegramLogin() {
         };
     }, []);
 
+
+
+    const handleLogin = () => {
+        const link = "https://oauth.telegram.org/auth?bot_id=7658339527&origin=https%3A%2F%2Fdelala.vercel.app&embed=1&request_access=write&return_to=https%3A%2F%2Fdelala.vercel.app%2Flogin"
+        window.location.href = link;
+    }
     return <div id='telegram' >
-        <div id="telegram-login-container" ></div>
+        <div id="telegram-login-container" style={{ display: "none" }}></div>
+        <Button
+            // isLoading={isPending}
+            onClick={handleLogin}
+            className="w-full" variant="outline">
+
+            Sign in with Google
+        </Button>
     </div>
 }
