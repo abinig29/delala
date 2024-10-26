@@ -1,6 +1,4 @@
-.TelegramLogin_telegramContainer__gWE6Q {
-  padding: 0px !important;
-}
+
 body.widget_frame_base {
   width: 100% !important;
 }
@@ -8,15 +6,12 @@ body.widget_frame_base {
   width: 100%;
   display: flex;
   justify-content: center;
-  background-color: white;
-  padding: 10px;
   border-radius: 8px; /* Optional rounded corners */
 }
 
 /* Targeting iframe within the widget to attempt icon color change */
 .telegramContainer iframe {
   filter: invert(1);
-  background-color: white !important;
   width: 100% !important;
 }
 button.tgme_widget_login_button {

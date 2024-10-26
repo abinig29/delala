@@ -67,7 +67,7 @@ function TelegramLogin() {
         document?.getElementById('telegram-login-container')?.appendChild(script);
     }, []);
 
-    return <div className={styles.telegramContainer}>
+    return <div id='telegram' className={styles.telegramContainer}>
         <div id="telegram-login-container" className='w-full'></div>
     </div>
 }
