@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
+import axios from "axios";
 
 
 export const authOptions: NextAuthOptions = {
@@ -14,6 +15,9 @@ export const authOptions: NextAuthOptions = {
                 }
             },
         }),
+      
+
+
     ],
     callbacks: {
         async jwt({ token, user, trigger, session }) {

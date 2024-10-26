@@ -12,7 +12,7 @@ import useMutationFunc from "@/hooks/use-mutation";
 import { MTD } from "@/lib/constant";
 import { newPasswordSchema } from "@/lib/validation/auth";
 
-export const NewPassword = ({ email, pin }: { email?: string, pin?: string }) => {
+export const NewPassword = ({ email, pin, userId }: { email?: string, pin?: string, userId?: string }) => {
   const router = useRouter();
   type FormData = z.infer<typeof newPasswordSchema>;
   const {
@@ -47,6 +47,7 @@ export const NewPassword = ({ email, pin }: { email?: string, pin?: string }) =>
   async function onSubmit(data: FormData) {
     const dataToBeSent = {
       email,
+      userId,
       code: pin,
       newPassword: data.password,
       resetAllSessions: true

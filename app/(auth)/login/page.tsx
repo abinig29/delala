@@ -2,8 +2,16 @@
 import Link from "next/link"
 import LoginForm from "../_component/user-auth"
 import { CustomGoogleButton } from "../_component/google-button"
+import Script from "next/script"
+import { signIn } from "next-auth/react"
+import TelegramSignInButton from "../_component/telegram-button"
 
 export default function Login({ searchParams }: { searchParams: { from: string } }) {
+
+    const handleTelegramLogin = () => {
+        signIn('telegram');
+    }
+
     return (
         <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-lg shadow-lg">
             <div className="space-y-2 text-center">
@@ -22,7 +30,10 @@ export default function Login({ searchParams }: { searchParams: { from: string }
                     <span className="bg-white px-2 text-gray-500">Or continue with</span>
                 </div>
             </div>
-            <CustomGoogleButton searchParams={searchParams} />
+            <div className=" space-y-4">
+                <CustomGoogleButton searchParams={searchParams} />
+                <TelegramLogin />
+            </div>
             <div className="flex items-center justify-between text-sm">
                 <Link className="text-emerald-500 hover:underline" href="/password-reset">
                     Forgot Password?
@@ -36,4 +47,24 @@ export default function Login({ searchParams }: { searchParams: { from: string }
             </div>
         </div>
     )
+}
+
+
+
+import { useEffect } from 'react';
+
+export function TelegramLogin() {
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = "https://telegram.org/js/telegram-widget.js?22";
+        script.async = true;
+        script.setAttribute('data-telegram-login', 'AbelDelalaBot');
+        script.setAttribute('data-size', 'medium');
+        script.setAttribute('data-radius', '4');
+        script.setAttribute('data-auth-url', '/api/telegram-auth');
+        script.setAttribute('data-request-access', 'write');
+        document?.getElementById('telegram-login-container')?.appendChild(script);
+    }, []);
+
+    return <div id="telegram-login-container"></div>;
 }

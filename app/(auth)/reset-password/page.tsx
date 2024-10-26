@@ -3,7 +3,7 @@
 import { NewPassword } from "../_component/new-password";
 
 
-export default function ResetPassword({ searchParams }: { searchParams: { email?: string, pin?: string } }) {
+export default function ResetPassword({ searchParams }: { searchParams: { email?: string, pin?: string, userId?: string } }) {
     return (
         <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-lg shadow-lg">
             <div className="space-y-2 text-center">
@@ -18,6 +18,7 @@ export default function ResetPassword({ searchParams }: { searchParams: { email?
             <NewPassword
                 email={searchParams?.email}
                 pin={searchParams?.pin}
+                userId={searchParams?.userId}
             />
         </div>
     );
