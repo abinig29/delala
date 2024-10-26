@@ -1,6 +1,7 @@
-body.widget_frame_base {
+.telegramContainer .widget_frame_base {
   width: 100% !important;
 }
+
 .telegramContainer {
   width: 100%;
   display: flex;
