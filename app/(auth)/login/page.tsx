@@ -66,6 +66,20 @@ function TelegramLogin() {
         script.setAttribute('data-auth-url', '/api/telegram-auth');
         script.setAttribute('data-request-access', 'write');
         document?.getElementById('telegram-login-container')?.appendChild(script);
+
+        script.onload = () => {
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .tgme_widget_login_button {
+                    background-color: black !important;
+                    color: white !important;
+                    border-radius: 8px !important;
+                    padding: 10px 20px !important;
+                    font-size: 16px !important;
+                }
+            `;
+            document.head.appendChild(style);
+        };
     }, []);
 
     return <div id='telegram' >
